@@ -1,0 +1,4 @@
+repository "Mars-AI-Simulator/Mars-AI-Simulator@3574305645784@cloud"
+  path "/"
+    br "/main"
+    co "/main"
