@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: e1bcf670995e816458319a1921783b45
   - enabled: 1
-    path: Assets/Scenes/TerrainOlympusMons.unity
+    path: Assets/Scenes/TerrainMars.unity
     guid: f9edd2f771b68404ca0ffd4c8f520517
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}

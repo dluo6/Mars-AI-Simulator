@@ -9,7 +9,7 @@ public class MainMenu : MonoBehaviour
     public void StartGame()
     {
         // Load the game scene (replace "GameScene" with your actual game scene name)
-        SceneManager.LoadScene("TerrainOlympusMons");
+        SceneManager.LoadScene("TerrainMars");
     }
 
     public void ShowCredits()
