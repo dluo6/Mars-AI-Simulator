@@ -205,13 +205,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.52389723, z: -0, w: 0.85178155}
-  m_LocalPosition: {x: 26563, y: 400, z: 8790}
+  m_LocalRotation: {x: 0.009053824, y: -0.96978474, z: 0.01380959, w: 0.24340288}
+  m_LocalPosition: {x: 34795, y: 704, z: 23252}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 63.188, z: 0}
+  m_LocalEulerAnglesHint: {x: -181.787, y: 388.169, z: 179.379}
 --- !u!114 &330585547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -530,7 +530,7 @@ GameObject:
   - component: {fileID: 1527724746}
   - component: {fileID: 1527724745}
   m_Layer: 0
-  m_Name: TerrainTempAllMars
+  m_Name: TerrainMars
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
