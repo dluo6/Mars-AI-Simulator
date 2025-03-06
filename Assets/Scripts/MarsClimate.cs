@@ -32,7 +32,6 @@ public class MarsClimate : MonoBehaviour
     }
 
 
-    // Update is called once per frame
     private void ApplyClimate()
     {
         int heightMapResolution = marsTerrain.terrainData.heightmapResolution; 
@@ -48,7 +47,6 @@ public class MarsClimate : MonoBehaviour
 
                 // Add variability based on latitude
                 float latitudeFactor = Mathf.Abs(y / (float)heightMapResolution - 0.5f); // Latitude-based effect
-                temp -= latitudeFactor * 50f; // Example adjustment based on latitude
 
                 // Calculate humidity (higher at lower altitudes, lower at higher altitudes)
                 float humidity = Mathf.Lerp(minHumidity, maxHumidity, ((yConversionUnit - (altitude * altFactor)) / yConversionUnit) * 0.05f);
