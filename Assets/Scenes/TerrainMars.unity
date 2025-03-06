@@ -563,7 +563,7 @@ GameObject:
   - component: {fileID: 1527724746}
   - component: {fileID: 1527724745}
   m_Layer: 0
-  m_Name: TerrainTempAllMars
+  m_Name: TerrainMars
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
