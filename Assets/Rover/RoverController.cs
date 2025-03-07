@@ -1,32 +1,43 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class RoverController : MonoBehaviour
 {
     private float horizontalInput, verticalInput;
-    private float currentSteerAngle, currentbreakForce;
+    private float currentSteerAngle, currentBreakForce;
     private bool isBreaking;
+    
+    // AI & Manual Control Toggle
+    [SerializeField] public bool useAI = true;  // Game starts in AI mode
 
     // Settings
-    [SerializeField] private float motorForce, breakForce, maxSteerAngle;
+    [SerializeField] private float motorForce;
+    [SerializeField] private float breakForce;
+    [SerializeField] private float maxSteerAngle;
 
     // Wheel Colliders
     [SerializeField] private WheelCollider frontLeftWheelCollider, frontRightWheelCollider;
     [SerializeField] private WheelCollider rearLeftWheelCollider, rearRightWheelCollider;
     [SerializeField] private WheelCollider middleLeftWheelCollider, middleRightWheelCollider;
 
-
-
     // Wheels
     [SerializeField] private Transform frontLeftWheelTransform, frontRightWheelTransform;
     [SerializeField] private Transform rearLeftWheelTransform, rearRightWheelTransform;
     [SerializeField] private Transform middleLeftWheelTransform, middleRightWheelTransform;
 
+    private void Update()
+    {
+        // Press "M" to toggle AI & Manual Control
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            useAI = !useAI;
+            Debug.Log(useAI ? "AI Control Enabled" : "Manual Control Enabled");
+        }
+    }
+
     private void FixedUpdate()
     {
-        GetInput();
+        GetInput();   // AI or manual control logic
         HandleMotor();
         HandleSteering();
         UpdateWheels();
@@ -34,32 +45,66 @@ public class RoverController : MonoBehaviour
 
     private void GetInput()
     {
-        // Steering Input
-        horizontalInput = Input.GetAxis("Horizontal");
+        if (!useAI)
+        {
+            // Manual Steering Input
+            horizontalInput = Input.GetAxis("Horizontal");
+            
+            // Manual Acceleration Input
+            verticalInput = -Input.GetAxis("Vertical");
 
-        // Acceleration Input
-        verticalInput = -Input.GetAxis("Vertical");
+            // Braking Input
+            isBreaking = Input.GetKey(KeyCode.Space);
+        }
+        // AI will set `horizontalInput` and `verticalInput` externally via `SetInputs()`
+    }
 
-        // Breaking Input
-        isBreaking = Input.GetKey(KeyCode.Space);
+    // Allow AI to set movement inputs
+    public void SetInputs(float horizontal, float vertical)
+    {
+        if (useAI)
+        {
+            horizontalInput = horizontal;
+            verticalInput = vertical;
+        }
+    }
+
+    // Adjust speed dynamically based on terrain slope
+    public void AdjustSpeed(float multiplier)
+    {
+        motorForce *= multiplier;
+    }
+
+    // Getter for motor force (so AI can store the base value)
+    public float GetMotorForce()
+    {
+        return motorForce;
+    }   
+
+    // Setter for motor force (so AI can modify speed based on terrain)
+    public void SetMotorForce(float newMotorForce)
+    {
+        motorForce = Mathf.Clamp(newMotorForce, GetMotorForce() * 0.5f, GetMotorForce() * 1.5f); 
+        // Limits to prevent infinite speed gain/loss
     }
 
     private void HandleMotor()
     {
         frontLeftWheelCollider.motorTorque = verticalInput * motorForce;
         frontRightWheelCollider.motorTorque = verticalInput * motorForce;
-        currentbreakForce = isBreaking ? breakForce : 0f;
+        
+        currentBreakForce = isBreaking ? breakForce : 0f;
         ApplyBreaking();
     }
 
-    private void ApplyBreaking()
+    public void ApplyBreaking()
     {
-        frontRightWheelCollider.brakeTorque = currentbreakForce;
-        frontLeftWheelCollider.brakeTorque = currentbreakForce;
-        rearLeftWheelCollider.brakeTorque = currentbreakForce;
-        rearRightWheelCollider.brakeTorque = currentbreakForce;
-        middleLeftWheelCollider.brakeTorque = currentbreakForce;
-        middleRightWheelCollider.brakeTorque = currentbreakForce;
+        frontRightWheelCollider.brakeTorque = currentBreakForce;
+        frontLeftWheelCollider.brakeTorque = currentBreakForce;
+        rearLeftWheelCollider.brakeTorque = currentBreakForce;
+        rearRightWheelCollider.brakeTorque = currentBreakForce;
+        middleLeftWheelCollider.brakeTorque = currentBreakForce;
+        middleRightWheelCollider.brakeTorque = currentBreakForce;
     }
 
     private void HandleSteering()
