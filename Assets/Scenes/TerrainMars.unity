@@ -562,6 +562,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1527724746}
   - component: {fileID: 1527724745}
+  - component: {fileID: 1527724748}
+  - component: {fileID: 1527724747}
   m_Layer: 0
   m_Name: TerrainMars
   m_TagString: Untagged
@@ -598,6 +600,40 @@ Transform:
   - {fileID: 336805567}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1527724747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1527724744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2b09b2fee6955947b06b24a6fc78942, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  marsTerrain: {fileID: 336805569}
+  mainCamera: {fileID: 330585545}
+  marsClimate: {fileID: 1527724748}
+--- !u!114 &1527724748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1527724744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ae4ecb078d9f3242a784bc6ee670da2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  marsTerrain: {fileID: 336805569}
+  maxTemp: 20
+  minTemp: -100
+  maxHumidity: 0.3
+  minHumidity: 0
+  maxSoilMoisture: 0.3
+  minSoilMoisture: 0
 --- !u!1 &1795679544
 GameObject:
   m_ObjectHideFlags: 0
