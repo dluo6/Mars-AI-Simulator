@@ -11,8 +11,7 @@ public class GlobalConfigs : MonoBehaviour
     {
         GlobalVariables.Instance.timeLimit = (int)timeLimit.value;
         GlobalVariables.Instance.numRovers = (int)numRovers.value;
-        Debug.Log(GlobalVariables.Instance.timeLimit + " " + GlobalVariables.Instance.numRovers);
-        // Load the game scene (replace "GameScene" with your actual game scene name)
+        // Replace this with the local configs menu
         SceneManager.LoadScene("TerrainMars");
     }
 }
