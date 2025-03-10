@@ -16,6 +16,7 @@ public class GlobalVariables : MonoBehaviour
         }
         else
         {
+            // to enforce singleton behaviour
             Destroy(gameObject);
         }
     }

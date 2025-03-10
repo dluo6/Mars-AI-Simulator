@@ -15,11 +15,11 @@ public class SetSliderValues : MonoBehaviour
         maxText.text = ((int)slider.maxValue).ToString();
         curText.text = ((int)slider.value).ToString();
 
-        slider.onValueChanged.AddListener(delegate{updateValue();});
+        slider.onValueChanged.AddListener(delegate{updateText();});
         curText.onEndEdit.AddListener(delegate{updateSlider();});
     }
 
-    public void updateValue() {
+    public void updateText() {
         curText.text = ((int)slider.value).ToString();
     }
 
