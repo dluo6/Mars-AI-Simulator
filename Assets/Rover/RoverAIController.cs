@@ -6,23 +6,23 @@ public class RoverAIController : MonoBehaviour
     private RoverController roverController;
     private Rigidbody rb;
     private float moveTime;
-    private bool isTurning;
+    // private bool isTurning;
     
-    [SerializeField] private float minMoveTime = 5f;
-    [SerializeField] private float maxMoveTime = 15f;
-    [SerializeField] private float turnDuration = 2f;
-    [SerializeField] private float uphillMultiplier = 3.5f;
-    [SerializeField] private float downhillMultiplier = 0.5f;
-    [SerializeField] private float steepSlopeThreshold = 20f; // Prevent turns on steep slopes
-    [SerializeField] private float maxDownhillSlope = 30f; // Avoid downhill slopes steeper than 30 degrees
-    [SerializeField] private float brakeDuration = 4f; // Time to brake before reversing
-    [SerializeField] private float reverseDuration = 2f; // Time to reverse before turning
+    [SerializeField] private float minMoveTime;
+    [SerializeField] private float maxMoveTime;
+    [SerializeField] private float turnDuration;
+    [SerializeField] private float uphillMultiplier;
+    [SerializeField] private float downhillMultiplier;
+    [SerializeField] private float steepSlopeThreshold; // Prevent turns on steep slopes
+    [SerializeField] private float maxDownhillSlope; // Avoid downhill slopes steeper than 30 degrees
+    [SerializeField] private float brakeDuration; // Time to brake before reversing
+    [SerializeField] private float reverseDuration; // Time to reverse before turning
 
     private float direction = 0; 
     private float driveDirection = 1;
     private float baseMotorForce;
 
-    [SerializeField] private float raycastDistance = 25f; // Distance to detect slope
+    [SerializeField] private float raycastDistance; // Distance to detect slope
     [SerializeField] private LayerMask groundLayer; // Layer mask for ground
 
     private void Start()
@@ -41,11 +41,7 @@ public class RoverAIController : MonoBehaviour
             // Always adjust speed based on slope
             AdjustSpeedBasedOnSlope();
 
-            // If not turning, move forward or backward
-            if (!isTurning)
-            {
-                roverController.SetInputs(direction, driveDirection);
-            }
+            roverController.SetInputs(direction, driveDirection);
 
             // Check for steep downhill and avoid it
             if (IsSteepDownhill())
@@ -65,17 +61,17 @@ public class RoverAIController : MonoBehaviour
                 direction = 0; 
 
                 // Randomly decide to go forward or backward
-                // driveDirection = Random.value > 0.5f ? 1f : -1f;
+                driveDirection = Random.value > 0.5f ? 1f : -1f;
 
                 yield return new WaitForSeconds(moveTime);
 
                 // Randomly decide to turn left or right
-                isTurning = true;
+                // isTurning = true;
                 direction = Random.value > 0.5f ? 1f : -1f;
                 yield return new WaitForSeconds(turnDuration);
 
                 direction = 0; // Stop turning
-                isTurning = false;
+                // isTurning = false;
             }
             yield return null;
         }
@@ -84,10 +80,13 @@ public class RoverAIController : MonoBehaviour
     private bool IsSteepDownhill()
     {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, -transform.up, out hit, raycastDistance, groundLayer))
+        Vector3 raycastOrigin = new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z - 1f);
+        Vector3 raycastDirection = Vector3.down; 
+
+        if (Physics.Raycast(raycastOrigin, raycastDirection, out hit, raycastDistance, groundLayer))
         {
             float slopeAngle = Vector3.Angle(hit.normal, Vector3.up);
-            return slopeAngle > maxDownhillSlope;
+            return slopeAngle > maxDownhillSlope; 
         }
         return false;
     }
@@ -95,56 +94,71 @@ public class RoverAIController : MonoBehaviour
     private void AdjustSpeedBasedOnSlope()
     {
         RaycastHit hit;
-        Vector3 raycastOrigin = transform.position + transform.up * 0.5f; // Slightly above the rover
-        Vector3 raycastDirection = transform.forward; // Raycast in the direction the rover is facing
+        Vector3 raycastOrigin = transform.position + Vector3.up * 1f; // Raycast from the center of the rover
+        Vector3 raycastDirection = Vector3.down;
 
-        Debug.DrawRay(raycastOrigin, raycastDirection * raycastDistance, Color.red); // Debug raycast
+        Debug.DrawRay(raycastOrigin, raycastDirection * raycastDistance, Color.red);
 
         if (Physics.Raycast(raycastOrigin, raycastDirection, out hit, raycastDistance, groundLayer))
         {
             float slopeAngle = Vector3.Angle(hit.normal, Vector3.up);
 
-            Debug.Log($"Slope Angle: {slopeAngle}"); // Log the slope angle for debugging
+            // Calculate the angle between the rover's forward direction and the global "up" vector
+            float roverPitchAngle = Vector3.Angle(transform.forward, Vector3.up) - 90f; // Subtract 90 to get pitch relative to horizontal
 
-            if (slopeAngle > steepSlopeThreshold)
+            Debug.Log($"Slope Angle: {slopeAngle}, Rover Pitch Angle: {roverPitchAngle}");
+
+            if (slopeAngle > 10f) 
             {
-                // Uphill
-                roverController.SetMotorForce(baseMotorForce * uphillMultiplier);
-                Debug.Log($"Uphill: {baseMotorForce * uphillMultiplier}");
+                if (roverPitchAngle < -5f) // Downhill (rover is pointing downwards)
+                {
+                    roverController.SetMotorForce(baseMotorForce * downhillMultiplier);
+                    Debug.Log($"Downhill! Motor Force: {baseMotorForce * downhillMultiplier}");
+                }
+                else if (roverPitchAngle > 10f) // Uphill (rover is pointing upwards)
+                {
+                    roverController.SetMotorForce(baseMotorForce * uphillMultiplier);
+                    Debug.Log($"Uphill! Motor Force: {baseMotorForce * uphillMultiplier}");
+                }
+                else // Flat or negligible slope
+                {
+                    roverController.SetMotorForce(baseMotorForce);
+                    Debug.Log($"Level Terrain. Motor Force: {baseMotorForce}");
+                }
             }
-            else if (slopeAngle < -steepSlopeThreshold)
+            else // Flat terrain
             {
-                // Downhill
-                roverController.SetMotorForce(baseMotorForce * downhillMultiplier);
-                Debug.Log($"Downhill: {baseMotorForce * downhillMultiplier}");
-            }
-            else
-            {
-                // Flat terrain
                 roverController.SetMotorForce(baseMotorForce);
-                Debug.Log($"Level: {baseMotorForce}");
+                Debug.Log($"Level Terrain. Motor Force: {baseMotorForce}");
+            }
+
+            // Check for steep downhill slopes
+            if (slopeAngle > maxDownhillSlope && roverPitchAngle < -5f)
+            {
+                StartCoroutine(BrakeAndReverse());
             }
         }
         else
         {
-            // No slope detected (flat terrain)
+            // If no ground is detected, assume flat terrain
             roverController.SetMotorForce(baseMotorForce);
+            Debug.LogWarning("No ground detected. Assuming flat terrain.");
         }
     }
 
     private IEnumerator BrakeAndReverse()
     {
-        roverController.ApplyBraking(); // Engage brakes
+        roverController.ApplyBraking();
         yield return new WaitForSeconds(brakeDuration);
 
         roverController.SetInputs(0, -1); // Reverse
         yield return new WaitForSeconds(reverseDuration);
 
-        isTurning = true;
+        // isTurning = true;
         direction = Random.value > 0.5f ? 1f : -1f; // Turn left or right
         yield return new WaitForSeconds(turnDuration);
 
         direction = 0; // Resume normal movement
-        isTurning = false;
+        // isTurning = false;
     }
 }

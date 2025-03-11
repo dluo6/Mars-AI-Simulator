@@ -74,7 +74,7 @@ public class RoverController : MonoBehaviour
         if (useAI)
         {
             horizontalInput = horizontal;
-            verticalInput = vertical;
+            verticalInput = -(vertical);
         }
     }
 
@@ -93,8 +93,6 @@ public class RoverController : MonoBehaviour
 
     private void HandleMotor()
     {
-        // Use the adjusted motor force for wheel torque
-        Debug.Log($"Adjusted Motor Force: {adjustedMotorForce}");
         frontLeftWheelCollider.motorTorque = verticalInput * adjustedMotorForce;
         frontRightWheelCollider.motorTorque = verticalInput * adjustedMotorForce;
 
