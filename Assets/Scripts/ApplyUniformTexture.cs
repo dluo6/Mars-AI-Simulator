@@ -23,7 +23,6 @@ public class ApplyUniformTexture : MonoBehaviour
         int alphaMapHeight = terrainData.alphamapHeight;
         int alphaMapLayers = terrainData.alphamapLayers;
 
-        // Just for clarity, get the layers:
         TerrainLayer[] layers = terrainData.terrainLayers;
 
         // Safety check
