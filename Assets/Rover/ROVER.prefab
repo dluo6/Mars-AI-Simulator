@@ -1126,6 +1126,7 @@ GameObject:
   - component: {fileID: 4518424503412650198}
   - component: {fileID: 5611762473178465166}
   - component: {fileID: 3665358479411277008}
+  - component: {fileID: 627512579035969439}
   m_Layer: 0
   m_Name: ROVER
   m_TagString: Untagged
@@ -1210,9 +1211,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d49d86dfb5b069242976edb6578bbae0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  motorForce: 1000
-  breakForce: 3000
-  maxSteerAngle: 30
+  useAI: 1
+  motorForce: 5000
+  brakeForce: 5000
+  maxSteerAngle: 20
   frontLeftWheelCollider: {fileID: 3843009728625389615}
   frontRightWheelCollider: {fileID: 4863288594732967503}
   rearLeftWheelCollider: {fileID: 8373937312827165494}
@@ -1225,6 +1227,27 @@ MonoBehaviour:
   rearRightWheelTransform: {fileID: 2067914123177004638}
   middleLeftWheelTransform: {fileID: 250970538291593467}
   middleRightWheelTransform: {fileID: 6896622098677511576}
+--- !u!114 &627512579035969439
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4447756694073025737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99502ecdf9c6db44ebbc60d0752b3d0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minMoveTime: 5
+  maxMoveTime: 15
+  turnDuration: 2
+  uphillMultiplier: 4.5
+  downhillMultiplier: 0.5
+  steepSlopeThreshold: 20
+  maxDownhillSlope: 30
+  brakeDuration: 4
+  reverseDuration: 2
 --- !u!1 &4654592242176792747
 GameObject:
   m_ObjectHideFlags: 0
