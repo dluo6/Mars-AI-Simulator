@@ -1,3 +1,7 @@
+// NOTE: This code is only for debugging purposes
+// Press "U" on the keyboard at any time during the game to remove all wet areas
+
+
 using UnityEngine;
 
 public class ApplyUniformTexture : MonoBehaviour
