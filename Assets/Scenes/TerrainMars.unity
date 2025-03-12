@@ -413,8 +413,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetTerrain: {fileID: 336805569}
   darkTextureIndex: 1
-  paintRadius: 100
-  paintCenter: {x: 23077.3, y: 0, z: 18607.9}
+  paintRadius: 500
 --- !u!82 &336805572
 AudioSource:
   m_ObjectHideFlags: 0
