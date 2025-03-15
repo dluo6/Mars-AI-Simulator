@@ -9,29 +9,23 @@ public class MetaDataHoverDebug : MonoBehaviour
     public MarsClimate marsClimate;
 
 
-    void Start()
-    {
-        //testAugmentClimateConditions();
-    }
-
-
-    void testAugmentClimateConditions()
-    {
-        // wherever the mouse is located at right now, it will augment climate for that region
-        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit))
-        {
-            if (hit.collider == marsTerrain.GetComponent<Collider>())
-            {
-                marsClimate.AugmentClimateConditions(new List<Vector3>() { hit.point });
-            }
-        }
-    }
-
     //Update is called once per frame
     void Update()
     {
+        if (Input.GetMouseButtonDown(1))
+        {
+            // wherever the mouse is located at right now, it will augment climate for that region
+            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit))
+            {
+                if (hit.collider == marsTerrain.GetComponent<Collider>())
+                {
+                    marsClimate.AugmentClimateConditions(new List<Vector3>() { hit.point });
+                }
+            }
+        }
+
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
