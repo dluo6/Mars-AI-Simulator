@@ -142,7 +142,7 @@ public class RoverAIController : MonoBehaviour
         {
             // If no ground is detected, assume flat terrain
             roverController.SetMotorForce(baseMotorForce);
-            Debug.LogWarning("No ground detected. Assuming flat terrain.");
+            //Debug.LogWarning("No ground detected. Assuming flat terrain.");
         }
     }
 
