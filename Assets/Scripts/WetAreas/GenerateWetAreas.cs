@@ -5,7 +5,7 @@ public class GenerateWetAreas : MonoBehaviour
 {
     public Terrain targetTerrain;
     public int darkTextureIndex = 1;
-    public float paintRadius = 100f;
+    public float paintRadius = 500f;
 
     private readonly List<Vector3> paintCenters = new()
     {
