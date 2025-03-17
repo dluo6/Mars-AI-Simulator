@@ -3,15 +3,20 @@ using UnityEngine.SceneManagement;
 
 public class Results : MonoBehaviour
 {
+    public void ViewLeaderboard()
+    {
+        SceneManager.LoadScene("Leaderboard");
+    }
+
     public void BackToGame()
     {
-        // TODO: Replace with more appropriate scene
+        // TODO: Fix so that simulation isn't restarted each time
         SceneManager.LoadScene("TerrainMars");
     }
 
     public void ExitGame()
     {
-        Debug.Log("Exit button pressed!");
+        Debug.LogWarning("Exit button pressed!");
         Application.Quit();
     }
 }
