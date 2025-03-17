@@ -25,5 +25,7 @@ public class SetSliderValues : MonoBehaviour
 
     public void updateSlider() {
         slider.value = float.Parse(curText.text);
+        // Slider handles out of bound values, update this in the text box as well
+        updateText();
     }
 }
