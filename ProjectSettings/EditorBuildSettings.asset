@@ -18,8 +18,11 @@ EditorBuildSettings:
     path: Assets/Scenes/TerrainMars.unity
     guid: f9edd2f771b68404ca0ffd4c8f520517
   - enabled: 1
-    path: Assets/Scenes/CreditsScene.unity
+    path: Assets/Scenes/Credits.unity
     guid: 15ad8f5b1de018648a021d2cabe6f4d3
+  - enabled: 1
+    path: Assets/Scenes/MidGameProgress.unity
+    guid: 57ddf8da017fb7f4b89646dcd7aee521
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
