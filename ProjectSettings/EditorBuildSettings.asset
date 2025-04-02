@@ -15,6 +15,9 @@ EditorBuildSettings:
     path: Assets/Scenes/GlobalConfigs.unity
     guid: bedec967473ef5a4aad05fdf163fb855
   - enabled: 1
+    path: Assets/Scenes/LocalConfigs.unity
+    guid: 4739bb600e78f264ab58366839a5a606
+  - enabled: 1
     path: Assets/Scenes/TerrainMars.unity
     guid: f9edd2f771b68404ca0ffd4c8f520517
   - enabled: 1
