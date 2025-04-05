@@ -68,4 +68,10 @@ public class ApplyUniformTexture : MonoBehaviour
             PaintAllSameTexture();
         }
     }
+
+    void OnApplicationQuit()
+    {
+        PaintAllSameTexture();
+    }
+
 }
