@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GlobalVariables : MonoBehaviour
@@ -6,6 +7,7 @@ public class GlobalVariables : MonoBehaviour
 
     public int timeLimit = 1;
     public int numRovers = 1;
+    public Stack<Vector3> startCoordinates = new Stack<Vector3>();
 
     void Awake()
     {
