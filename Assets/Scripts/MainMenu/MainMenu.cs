@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
@@ -15,7 +12,7 @@ public class MainMenu : MonoBehaviour
     public void ShowCredits()
     {
         // Load the credits scene (replace "CreditsScene" with your actual credits scene name)
-        SceneManager.LoadScene("CreditsScene");
+        SceneManager.LoadScene("Credits");
     }
 
     public void ExitGame()
