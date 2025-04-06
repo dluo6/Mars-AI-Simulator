@@ -23,7 +23,7 @@ public class TimeDisplay : MonoBehaviour
             //return;
         }
 
-        int days = (GlobalVariables.Instance == null) ? 1 : GlobalVariables.Instance.timeLimit;
+        int days = (int) GlobalVariables.Instance.simulationTimeElapsed;
         string dayText = days == 1 ? "DAY" : "DAYS";
         timeTextDisplay.text = $"TIME ELAPSED: {days} {dayText}";
     }
