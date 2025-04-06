@@ -1,49 +1,49 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class RoverAIController : MonoBehaviour
 {
     private RoverController roverController;
     private Rigidbody rb;
-    private float moveTime;
-    // private bool isTurning;
+    private float baseMotorForce;
     
-    [SerializeField] private float minMoveTime;
-    [SerializeField] private float maxMoveTime;
-    [SerializeField] private float turnDuration;
-    [SerializeField] private float uphillMultiplier;
-    [SerializeField] private float downhillMultiplier;
-    [SerializeField] private float steepSlopeThreshold; // Prevent turns on steep slopes
-    [SerializeField] private float maxDownhillSlope; // Avoid downhill slopes steeper than 30 degrees
-    [SerializeField] private float brakeDuration; // Time to brake before reversing
-    [SerializeField] private float reverseDuration; // Time to reverse before turning
-
+    // Steering variables
     private float direction = 0; 
     private float driveDirection = 1;
-    private float baseMotorForce;
+    private float targetReachedThreshold = 450f;
 
-    [SerializeField] private float raycastDistance; // Distance to detect slope
-    [SerializeField] private LayerMask groundLayer; // Layer mask for ground
+    [SerializeField] private float turnDuration;
+    [SerializeField] private float brakeDuration; 
+    [SerializeField] private float reverseDuration; 
+    [SerializeField] private float raycastDistance; 
+    [SerializeField] private LayerMask groundLayer;
+
+    private Vector3 currentWaterTarget;
+    private bool hasTarget = false;
+    private List<Vector3> visitedWaterSources = new List<Vector3>();
+
+    private CheckWetArea checkWetArea;
 
     private void Start()
     {
         roverController = GetComponent<RoverController>();
-        GetComponent<Rigidbody>().centerOfMass = new Vector3(0, -1.5f, 0); // Lower the center
+        checkWetArea = GetComponent<CheckWetArea>();  
+        GetComponent<Rigidbody>().centerOfMass = new Vector3(0, -1.5f, 0);
         rb = GetComponent<Rigidbody>();
         baseMotorForce = roverController.GetMotorForce();
-        StartCoroutine(Roam());
+        
+        // Start the water-seeking coroutine.
+        StartCoroutine(SeekWater());
     }
 
     private void FixedUpdate()
     {
         if (roverController.useAI)
         {
-            // Always adjust speed based on slope
             AdjustSpeedBasedOnSlope();
-
             roverController.SetInputs(direction, driveDirection);
 
-            // Check for steep downhill and avoid it
             if (IsSteepDownhill())
             {
                 StartCoroutine(BrakeAndReverse());
@@ -51,42 +51,89 @@ public class RoverAIController : MonoBehaviour
         }
     }
 
-    private IEnumerator Roam()
+    private IEnumerator SeekWater()
     {
         while (true)
         {
-            if (roverController.useAI)
+            if (!roverController.useAI)
             {
-                moveTime = Random.Range(minMoveTime, maxMoveTime);
-                direction = 0; 
-
-                // Randomly decide to go forward or backward
-                driveDirection = Random.value > 0.5f ? 1f : -1f;
-
-                yield return new WaitForSeconds(moveTime);
-
-                // Randomly decide to turn left or right
-                // isTurning = true;
-                direction = Random.value > 0.5f ? 1f : -1f;
-                yield return new WaitForSeconds(turnDuration);
-
-                direction = 0; // Stop turning
-                // isTurning = false;
+                yield return null;
+                continue;
             }
+            
+            if (!hasTarget)
+            {
+                currentWaterTarget = FindClosestWaterSource();
+                if (currentWaterTarget != Vector3.zero)
+                {
+                    hasTarget = true;
+                    Debug.Log("New water target: " + currentWaterTarget);
+                }
+                else
+                {
+                    Debug.Log("All water sources have been visited or none available.");
+                    yield break;
+                }
+            }
+
+            // Calculate vector to the target water source.
+            Vector3 toTarget = currentWaterTarget - transform.position;
+            float distanceToTarget = toTarget.magnitude;
+
+            // Check if the rover is near the target AND on a wet area.
+            if (distanceToTarget < targetReachedThreshold && 
+                checkWetArea != null && checkWetArea.IsOnWetArea)
+            {
+                Debug.Log("Reached target water source: " + currentWaterTarget);
+                visitedWaterSources.Add(currentWaterTarget);
+                hasTarget = false;
+                // Optionally wait before searching for the next target.
+                yield return new WaitForSeconds(2f);
+                continue;
+            }
+
+            // If not yet reached, steer toward the target.
+            float angle = Vector3.SignedAngle(transform.forward, toTarget, Vector3.up);
+            direction = Mathf.Clamp(-angle / 45f, -1f, 1f);
+            driveDirection = 1f;  // Always drive forward when seeking water.
+            
             yield return null;
         }
+    }
+
+
+    // finding the closest water source that hasn’t been visited.
+    private Vector3 FindClosestWaterSource()
+    {
+        Vector3 closest = Vector3.zero;
+        float minDistance = Mathf.Infinity;
+
+        foreach (Vector3 waterSource in GenerateWetAreas.WaterSources)
+        {
+            if (visitedWaterSources.Contains(waterSource))
+                continue;
+
+            float distance = Vector3.Distance(transform.position, waterSource);
+            if (distance < minDistance)
+            {
+                minDistance = distance;
+                closest = waterSource;
+            }
+        }
+        return closest;
     }
 
     private bool IsSteepDownhill()
     {
         RaycastHit hit;
-        Vector3 raycastOrigin = new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z - 1f);
+        Vector3 raycastOrigin = transform.position + transform.forward * -30f + Vector3.up * 1f;
         Vector3 raycastDirection = Vector3.down; 
+        Debug.DrawRay(raycastOrigin, raycastDirection * raycastDistance, Color.blue);
 
         if (Physics.Raycast(raycastOrigin, raycastDirection, out hit, raycastDistance, groundLayer))
         {
             float slopeAngle = Vector3.Angle(hit.normal, Vector3.up);
-            return slopeAngle > maxDownhillSlope; 
+            return slopeAngle > 30f; 
         }
         return false;
     }
@@ -94,55 +141,47 @@ public class RoverAIController : MonoBehaviour
     private void AdjustSpeedBasedOnSlope()
     {
         RaycastHit hit;
-        Vector3 raycastOrigin = transform.position + Vector3.up * 1f; // Raycast from the center of the rover
+        Vector3 raycastOrigin = transform.position + Vector3.up * 1f;
         Vector3 raycastDirection = Vector3.down;
-
         Debug.DrawRay(raycastOrigin, raycastDirection * raycastDistance, Color.red);
 
         if (Physics.Raycast(raycastOrigin, raycastDirection, out hit, raycastDistance, groundLayer))
         {
             float slopeAngle = Vector3.Angle(hit.normal, Vector3.up);
-
-            // Calculate the angle between the rover's forward direction and the global "up" vector
-            float roverPitchAngle = Vector3.Angle(transform.forward, Vector3.up) - 90f; // Subtract 90 to get pitch relative to horizontal
-
-            Debug.Log($"Slope Angle: {slopeAngle}, Rover Pitch Angle: {roverPitchAngle}");
+            float roverPitchAngle = Vector3.Angle(transform.forward, Vector3.up) - 90f;
 
             if (slopeAngle > 10f) 
             {
-                if (roverPitchAngle < -5f) // Downhill (rover is pointing downwards)
+                if (roverPitchAngle > 10f)
                 {
-                    roverController.SetMotorForce(baseMotorForce * downhillMultiplier);
-                    Debug.Log($"Downhill! Motor Force: {baseMotorForce * downhillMultiplier}");
+                    roverController.SetMotorForce(baseMotorForce * 2.5f);
+                    // Debug.Log("Uphill! Increased motor force.");
                 }
-                else if (roverPitchAngle > 10f) // Uphill (rover is pointing upwards)
+                else if (roverPitchAngle < -5f)
                 {
-                    roverController.SetMotorForce(baseMotorForce * uphillMultiplier);
-                    Debug.Log($"Uphill! Motor Force: {baseMotorForce * uphillMultiplier}");
+                    roverController.SetMotorForce(baseMotorForce * 0.5f);
+                    // Debug.Log("Downhill! Reduced motor force.");
                 }
-                else // Flat or negligible slope
+                else
                 {
                     roverController.SetMotorForce(baseMotorForce);
-                    Debug.Log($"Level Terrain. Motor Force: {baseMotorForce}");
+                    // Debug.Log("Level terrain. Normal motor force.");
                 }
             }
-            else // Flat terrain
+            else
             {
                 roverController.SetMotorForce(baseMotorForce);
-                Debug.Log($"Level Terrain. Motor Force: {baseMotorForce}");
+                // Debug.Log("Level terrain. Normal motor force.");
             }
 
-            // Check for steep downhill slopes
-            if (slopeAngle > maxDownhillSlope && roverPitchAngle < -5f)
+            if (slopeAngle > 30f && roverPitchAngle < -5f)
             {
                 StartCoroutine(BrakeAndReverse());
             }
         }
         else
         {
-            // If no ground is detected, assume flat terrain
             roverController.SetMotorForce(baseMotorForce);
-            //Debug.LogWarning("No ground detected. Assuming flat terrain.");
         }
     }
 
@@ -150,15 +189,10 @@ public class RoverAIController : MonoBehaviour
     {
         roverController.ApplyBraking();
         yield return new WaitForSeconds(brakeDuration);
-
-        roverController.SetInputs(0, -1); // Reverse
+        roverController.SetInputs(0, -1);
         yield return new WaitForSeconds(reverseDuration);
-
-        // isTurning = true;
-        direction = Random.value > 0.5f ? 1f : -1f; // Turn left or right
+        direction = Random.value > 0.5f ? 1f : -1f;
         yield return new WaitForSeconds(turnDuration);
-
-        direction = 0; // Resume normal movement
-        // isTurning = false;
+        direction = 0;
     }
 }

@@ -7,7 +7,8 @@ public class GenerateWetAreas : MonoBehaviour
     public int darkTextureIndex = 1;
     public float paintRadius = 500f;
 
-    private readonly List<Vector3> paintCenters = new()
+    // Expose the water sources as a public static list.
+    public static readonly List<Vector3> WaterSources = new List<Vector3>
     {
         new Vector3(48230.5f, 0f, 31548.2f),
         new Vector3(13845.7f, 0f, 44719.3f),
@@ -38,14 +39,13 @@ public class GenerateWetAreas : MonoBehaviour
         // Get the current alpha map
         float[,,] alphaMap = terrainData.GetAlphamaps(0, 0, width, height);
 
-        foreach (Vector3 paintCenter in paintCenters)
+        // Use the water sources defined above to paint wet areas.
+        foreach (Vector3 paintCenter in WaterSources)
         {
-            // Convert to alpha map index
             int alphaX = Mathf.RoundToInt((paintCenter.x / terrainData.size.x) * width);
             int alphaZ = Mathf.RoundToInt((paintCenter.z / terrainData.size.z) * height);
             int alphaRadius = Mathf.RoundToInt((paintRadius / terrainData.size.x) * width);
 
-            // Limit search range to avoid unnecessary checks
             int minX = Mathf.Max(0, alphaX - alphaRadius);
             int maxX = Mathf.Min(width - 1, alphaX + alphaRadius);
             int minY = Mathf.Max(0, alphaZ - alphaRadius);
@@ -58,7 +58,6 @@ public class GenerateWetAreas : MonoBehaviour
                     float dist = Mathf.Sqrt((x - alphaX) * (x - alphaX) + (y - alphaZ) * (y - alphaZ));
                     if (dist < alphaRadius)
                     {
-                        // Ensure only the dark texture is active
                         for (int i = 0; i < layers; i++)
                             alphaMap[y, x, i] = 0f;
 
@@ -68,8 +67,6 @@ public class GenerateWetAreas : MonoBehaviour
             }
         }
 
-        // Apply the modified alpha map
         terrainData.SetAlphamaps(0, 0, alphaMap);
     }
-
 }
