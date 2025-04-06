@@ -2676,7 +2676,6 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 1
-  targetReachedThreshold: 10
 --- !u!114 &5989009828839317517
 MonoBehaviour:
   m_ObjectHideFlags: 0

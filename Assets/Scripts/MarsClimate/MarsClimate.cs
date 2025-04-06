@@ -19,7 +19,7 @@ public class MarsClimate : MonoBehaviour
     private float[,] soilMoistureMap;
 
 
-    private void Start()
+    public bool ApplyClimate()
     {
         Debug.Log("Mars Climate Initiating!!!");
 
@@ -27,14 +27,7 @@ public class MarsClimate : MonoBehaviour
         tempMap = new float[heightMapResolution, heightMapResolution];
         humidityMap = new float[heightMapResolution, heightMapResolution];
         soilMoistureMap = new float[heightMapResolution, heightMapResolution];
-        
-        ApplyClimate();
-    }
 
-
-    private void ApplyClimate()
-    {
-        int heightMapResolution = marsTerrain.terrainData.heightmapResolution; 
         float[,] heights = marsTerrain.terrainData.GetHeights(0, 0, heightMapResolution, heightMapResolution);
 
         float yConversionUnit = marsTerrain.terrainData.size.y;
@@ -62,7 +55,7 @@ public class MarsClimate : MonoBehaviour
             }
         }
         Debug.Log("Done applying climate!!");
-
+        return true;
         // Below function is an expensive operation, i would suggest not to run it unless absolutely necessary to debug values at large
         //SaveMapsToCSV();
     }
