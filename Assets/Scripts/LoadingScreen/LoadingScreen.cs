@@ -73,20 +73,11 @@ public class LoadingScreen : MonoBehaviour
         {
             // Freeze the scene: Stop player movement, freeze physics, etc.
             Time.timeScale = 0f;  // Stop time (freeze all gameplay)
-            if (player != null)
-            {
-                player.SetActive(false);
-            }
         }
         else
         {
             // Unfreeze the scene: Resume gameplay
             Time.timeScale = 1f;  // Resume time
-            if (player != null)
-            {
-                // Re-enable player object
-                player.SetActive(true);
-            }
         }
     }
 }
