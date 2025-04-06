@@ -1,8 +1,8 @@
-using System.Collections;
 using UnityEngine;
 
 public class RoverController : MonoBehaviour
 {
+    public Rigidbody rover;
     private float horizontalInput, verticalInput;
     private float currentSteerAngle, currentBrakeForce;
     private bool isBraking;
@@ -90,6 +90,13 @@ public class RoverController : MonoBehaviour
         adjustedMotorForce = Mathf.Clamp(newMotorForce, baseMotorForce * 0.25f, baseMotorForce * 5f); 
         // Limits to prevent infinite speed gain/loss
     }
+
+
+    public float GetCurrentSpeed()
+    {
+        return rover.linearVelocity.magnitude;
+    }
+
 
     private void HandleMotor()
     {
