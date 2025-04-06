@@ -212,7 +212,7 @@ Transform:
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
   m_LocalRotation: {x: 0.06886153, y: -0.7394364, z: 0.07653407, w: 0.6653078}
-  m_LocalPosition: {x: 23125.3, y: 245.1, z: 18612.98}
+  m_LocalPosition: {x: 23547.3, y: 275.1, z: 18412.98}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1166,7 +1166,7 @@ Transform:
   m_GameObject: {fileID: 1795679544}
   serializedVersion: 2
   m_LocalRotation: {x: 0.06886153, y: -0.7394364, z: 0.07653407, w: 0.6653078}
-  m_LocalPosition: {x: 23125.3, y: 245.1, z: 18612.98}
+  m_LocalPosition: {x: 23547.3, y: 275.1, z: 18412.98}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1415,7 +1415,7 @@ Transform:
   m_GameObject: {fileID: 2541256884044121932}
   serializedVersion: 2
   m_LocalRotation: {x: 0.0012827794, y: -0.0000007052418, z: 0.00054977584, w: 0.99999905}
-  m_LocalPosition: {x: 23077.3, y: 235, z: 18607.9}
+  m_LocalPosition: {x: 23499.3, y: 265, z: 18407.9}
   m_LocalScale: {x: 1.77, y: 1.77, z: 1.77}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -1995,7 +1995,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   useAI: 1
-  motorForce: 5500
+  motorForce: 4500
   brakeForce: 5000
   maxSteerAngle: 20
   frontLeftWheelCollider: {fileID: 3146006736045331370}
@@ -2639,7 +2639,7 @@ Rigidbody:
   m_GameObject: {fileID: 2541256884044121932}
   serializedVersion: 4
   m_Mass: 1000
-  m_Drag: 0
+  m_Drag: 0.02
   m_AngularDrag: 0
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -2669,19 +2669,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99502ecdf9c6db44ebbc60d0752b3d0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minMoveTime: 5
-  maxMoveTime: 15
   turnDuration: 2
-  uphillMultiplier: 4.5
-  downhillMultiplier: 0.5
-  steepSlopeThreshold: 15
-  maxDownhillSlope: 30
   brakeDuration: 4
   reverseDuration: 2
-  raycastDistance: 0
+  raycastDistance: 8
   groundLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1
+  targetReachedThreshold: 10
 --- !u!114 &5989009828839317517
 MonoBehaviour:
   m_ObjectHideFlags: 0
