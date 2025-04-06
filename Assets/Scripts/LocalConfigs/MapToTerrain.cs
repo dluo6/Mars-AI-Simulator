@@ -55,6 +55,7 @@ public class MapToTerrain : MonoBehaviour, IPointerClickHandler
 
     public void MoveToLocation(Vector3 position)
     {
+        Debug.Log(position);
         Hide(mapCanvas);
         Show(confirmScreenCanvas);
 
