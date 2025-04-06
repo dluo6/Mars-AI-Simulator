@@ -155,23 +155,23 @@ public class RoverAIController : MonoBehaviour
                 if (roverPitchAngle > 10f)
                 {
                     roverController.SetMotorForce(baseMotorForce * 2.5f);
-                    // Debug.Log("Uphill! Increased motor force.");
+                    //Debug.Log("Uphill! Increased motor force.");
                 }
                 else if (roverPitchAngle < -5f)
                 {
                     roverController.SetMotorForce(baseMotorForce * 0.5f);
-                    // Debug.Log("Downhill! Reduced motor force.");
+                    //Debug.Log("Downhill! Reduced motor force.");
                 }
                 else
                 {
                     roverController.SetMotorForce(baseMotorForce);
-                    // Debug.Log("Level terrain. Normal motor force.");
+                    //Debug.Log("Level terrain. Normal motor force.");
                 }
             }
             else
             {
                 roverController.SetMotorForce(baseMotorForce);
-                // Debug.Log("Level terrain. Normal motor force.");
+                //Debug.Log("Level terrain. Normal motor force.");
             }
 
             if (slopeAngle > 30f && roverPitchAngle < -5f)
