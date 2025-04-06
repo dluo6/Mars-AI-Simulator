@@ -7,7 +7,7 @@ public class CheckWetArea : MonoBehaviour
     [SerializeField] float wetThreshold = 0.3f;
 
     [Header("Audio Settings")]
-    [SerializeField] AudioSource waterAudioSource;
+    [SerializeField] AudioSource waterAudioSource; // Assign an AudioSource for the water sound
 
     float checkInterval = 1.0f;
     float nextCheckTime = 0f;
@@ -15,9 +15,6 @@ public class CheckWetArea : MonoBehaviour
 
     TerrainData terrainData;
     Vector3 terrainPos;
-
-    // Public property to let other scripts know if we're on wet terrain.
-    public bool IsOnWetArea { get; private set; }
 
     void Start()
     {
@@ -33,9 +30,11 @@ public class CheckWetArea : MonoBehaviour
     {
         if (Time.time >= nextCheckTime)
         {
-            IsOnWetArea = CheckIfOnWetArea();
+            bool isOnWetArea = CheckIfOnWetArea();
             nextCheckTime = Time.time + checkInterval;
-            HandleWaterSound(IsOnWetArea);
+
+            // Play or stop water sound based on terrain type
+            HandleWaterSound(isOnWetArea);
         }
     }
 
