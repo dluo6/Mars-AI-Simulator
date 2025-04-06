@@ -8,6 +8,7 @@ public class LoadingScreen : MonoBehaviour
     public TextMeshProUGUI loadingText;      // Reference to the loading text
     public GameObject player;         // Reference to the player (if you want to disable the player)
     public MarsClimate marsClimate;
+    private bool calculationFinished = false;
 
 
     void Start()
@@ -16,18 +17,18 @@ public class LoadingScreen : MonoBehaviour
         loadingBox.SetActive(true);
         FreezeScene(true);
 
-        StartCoroutine(LoadingAnimation());
-        StartCoroutine(PerformClimateCalculations());
+        StartCoroutine(RunLoadingProcess());
     }
 
-    private IEnumerator PerformClimateCalculations()
+    private IEnumerator RunLoadingProcess()
     {
+        // Start both coroutines, but wait for calculations to finish
+        var loadingAnimation = StartCoroutine(LoadingAnimation());
+        yield return StartCoroutine(PerformClimateCalculations());
 
-        bool appliedClimate = marsClimate.ApplyClimate();
-        while (!appliedClimate)
-        {
-            yield return null;
-        }
+        // Calculations are done, stop the loading animation
+        StopCoroutine(loadingAnimation);
+        loadingText.text = "Loading completed!";
 
         // After calculations are done, unfreeze the scene
         FreezeScene(false);
@@ -36,19 +37,32 @@ public class LoadingScreen : MonoBehaviour
         loadingBox.SetActive(false);
     }
 
+
+    private IEnumerator PerformClimateCalculations()
+    {
+
+        yield return StartCoroutine(marsClimate.ApplyClimate());
+        calculationFinished = true;
+        FreezeScene(false);
+        loadingBox.SetActive(false);
+    }
+
     private IEnumerator LoadingAnimation()
     {
         // Loop through loading text animation
-        while (true)
+        while (!calculationFinished)
         {
-            loadingText.text = "Loading.\nPlease wait...";
-            yield return new WaitForSeconds(0.25f);  // Wait for half a second
+            loadingText.text = "Loading\nPlease wait";
+            yield return new WaitForSecondsRealtime(0.25f);
 
-            loadingText.text = "Loading..\nPlease wait...";
-            yield return new WaitForSeconds(0.25f);
+            loadingText.text = "Loading.\nPlease wait.";
+            yield return new WaitForSecondsRealtime(0.25f);  // Wait for half a second
+
+            loadingText.text = "Loading..\nPlease wait..";
+            yield return new WaitForSecondsRealtime(0.25f);
 
             loadingText.text = "Loading...\nPlease wait...";
-            yield return new WaitForSeconds(0.25f);
+            yield return new WaitForSecondsRealtime(0.25f);
         }
     }
 
@@ -61,11 +75,8 @@ public class LoadingScreen : MonoBehaviour
             Time.timeScale = 0f;  // Stop time (freeze all gameplay)
             if (player != null)
             {
-                // Optionally disable player movement (if you have player scripts)
-                player.SetActive(false); // Disable player object (or just player movement script)
+                player.SetActive(false);
             }
-
-            // You can disable other gameplay-related scripts if necessary
         }
         else
         {
@@ -74,7 +85,7 @@ public class LoadingScreen : MonoBehaviour
             if (player != null)
             {
                 // Re-enable player object
-                player.SetActive(true); // Enable player object (or just player movement script)
+                player.SetActive(true);
             }
         }
     }
