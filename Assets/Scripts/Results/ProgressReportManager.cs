@@ -1,38 +1,34 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Networking;
 
 public class ProgressReportManager : MonoBehaviour
 {
+    public static ProgressReportManager Instance;
+
     [SerializeField] private Transform contentTransform;
     [SerializeField] private GameObject resultItemPrefab;
-    [SerializeField] private string apiUrl = "https://get-api-url/results/list";
-    [SerializeField] private bool useDummyData = true;
     [SerializeField] private int poolSize = 12;
 
-    List<GameObject> objectPool = new List<GameObject>();
-    List<RoverResult> results = new List<RoverResult>();
-    int activeItemCount = 0;
+    private List<GameObject> objectPool = new List<GameObject>();
+    private List<RoverResult> results = new List<RoverResult>();
+    private int activeItemCount = 0;
 
-    [System.Serializable]
-    public class RoverResult
+    private void Awake()
     {
-        public int ResultID;
-        public int UserID;
-        public string RoverName;
-        public int WaterBodies;
-        public int TimeElapsed;
-        public float TerrainDiscovered;
+        if (Instance == null)
+        {
+            Instance = this;
+        } 
+        else
+        {
+            Destroy(gameObject);
+        }
     }
-
-    [System.Serializable]
-    class ResultsResponse { public RoverResult[] result; }
 
     void Start()
     {
-        if (!contentTransform || !resultItemPrefab)
+        if (contentTransform == null || resultItemPrefab == null)
         {
             Debug.LogError("Missing references: Content Transform or Result Item Prefab");
             return;
@@ -41,10 +37,8 @@ public class ProgressReportManager : MonoBehaviour
         SetupLayout();
         InitializePool();
 
-        if (useDummyData) LoadAndDisplayDummyData();
-
-        // TODO: Fix when remote API has been defined
-        //else StartCoroutine(FetchAndDisplayResults());
+        // Load results from the database.
+        LoadAndDisplayResultsFromDB();
     }
 
     void SetupLayout()
@@ -78,68 +72,72 @@ public class ProgressReportManager : MonoBehaviour
     GameObject GetPooledObject()
     {
         foreach (var obj in objectPool)
-            if (!obj.activeInHierarchy) 
-            { 
-                obj.SetActive(true); 
-                return obj; 
+        {
+            if (!obj.activeInHierarchy)
+            {
+                obj.SetActive(true);
+                return obj;
             }
-
+        }
         var newObj = Instantiate(resultItemPrefab, contentTransform);
         objectPool.Add(newObj);
         return newObj;
     }
 
-    void LoadAndDisplayDummyData()
+    public List<RoverResult> GetCurrentResults()
     {
-        results.Clear();
+        return results;
+    }
 
-        for (int i = 1; i <= 9; i++)
-            results.Add(new RoverResult
+    // Update progress for a given rover.
+    public void UpdateRoverProgress(string roverName, int waterBodiesIncrement, float terrainDiscovered, int timeElapsed)
+    {
+        RoverResult result = results.Find(r => r.RoverName == roverName);
+        if (result != null)
+        {
+            result.WaterBodies += waterBodiesIncrement;
+            result.TerrainDiscovered = terrainDiscovered;
+            result.TimeElapsed = timeElapsed;
+            // (Optionally, update the record in the database here using an UPDATE query.)
+        }
+        else
+        {
+            result = new RoverResult
             {
-                RoverName = "Rover " + i,
-                WaterBodies = Random.Range(0, 5),
-                TerrainDiscovered = Random.Range(5, 50)
-            });
-
+                RoverName = roverName,
+                WaterBodies = waterBodiesIncrement,
+                TerrainDiscovered = terrainDiscovered,
+                TimeElapsed = timeElapsed,
+                UserID = 1,  // Set this as needed.
+                // ResultID is auto-assigned.
+            };
+            results.Add(result);
+            DatabaseManager.Instance.InsertResult(result);
+        }
         DisplayResults();
     }
 
-    IEnumerator FetchAndDisplayResults()
+    // Load results from the database.
+    public void LoadAndDisplayResultsFromDB()
     {
-        using (UnityWebRequest request = UnityWebRequest.Get(apiUrl))
-        {
-            yield return request.SendWebRequest();
-
-            if (request.result == UnityWebRequest.Result.Success)
-            {
-                ResultsResponse response = JsonUtility.FromJson<ResultsResponse>(request.downloadHandler.text);
-                if (response?.result != null)
-                {
-                    results.Clear();
-                    results.AddRange(response.result);
-                    DisplayResults();
-                    yield break;
-                }
-            }
-
-            Debug.Log("API error, using dummy data");
-            LoadAndDisplayDummyData();
-        }
+        results.Clear();
+        results.AddRange(DatabaseManager.Instance.LoadResults());
+        DisplayResults();
     }
 
     void DisplayResults()
     {
-        // Deactivate previously active items
+        // Deactivate previously active items.
         for (int i = 0; i < activeItemCount && i < objectPool.Count; i++)
             objectPool[i].SetActive(false);
 
-        // Sort by WaterBodies then TerrainDiscovered (descending)
-        results.Sort((a, b) => b.WaterBodies == a.WaterBodies
-            ? b.TerrainDiscovered.CompareTo(a.TerrainDiscovered)
-            : b.WaterBodies.CompareTo(a.WaterBodies));
+        // Sort results (e.g., by WaterBodies descending, then TerrainDiscovered).
+        results.Sort((a, b) => b.WaterBodies == a.WaterBodies ?
+            b.TerrainDiscovered.CompareTo(a.TerrainDiscovered) :
+            b.WaterBodies.CompareTo(a.WaterBodies));
 
-        // Display results
         activeItemCount = results.Count;
+
         for (int i = 0; i < results.Count; i++)
         {
             var resultObj = GetPooledObject();
@@ -147,9 +145,10 @@ public class ProgressReportManager : MonoBehaviour
             if (resultUI != null)
             {
                 resultUI.SetData(
-                    i + 1, results[i].RoverName,
-                    results[i].WaterBodies,
-                    results[i].TerrainDiscovered
+                    rank: i + 1,
+                    roverName: results[i].RoverName,
+                    waterBodies: results[i].WaterBodies,
+                    terrainDiscovered: results[i].TerrainDiscovered
                 );
             }
         }

@@ -1,4 +1,4 @@
-<<<<<<<< HEAD:Assets/Scripts/Rover/RoverController.cs
+using System;
 using UnityEngine;
 
 public class RoverController : MonoBehaviour
@@ -7,7 +7,8 @@ public class RoverController : MonoBehaviour
     private float horizontalInput, verticalInput;
     private float currentSteerAngle, currentBrakeForce;
     private bool isBraking;
-    
+    public string roverName = "Rover";
+
     // AI & Manual Control Toggle
     [SerializeField] public bool useAI = true;  // Game starts in AI mode
 
@@ -47,7 +48,7 @@ public class RoverController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        GetInput(); 
+        GetInput();
         HandleMotor();
         HandleSteering();
         UpdateWheels();
@@ -59,7 +60,7 @@ public class RoverController : MonoBehaviour
         {
             // Manual Steering Input
             horizontalInput = Input.GetAxis("Horizontal");
-            
+
             // Manual Acceleration Input
             verticalInput = -Input.GetAxis("Vertical");
 
@@ -88,7 +89,7 @@ public class RoverController : MonoBehaviour
     // Setter for motor force (so AI can modify speed based on terrain)
     public void SetMotorForce(float newMotorForce)
     {
-        adjustedMotorForce = Mathf.Clamp(newMotorForce, baseMotorForce * 0.25f, baseMotorForce * 5f); 
+        adjustedMotorForce = Mathf.Clamp(newMotorForce, baseMotorForce * 0.25f, baseMotorForce * 5f);
         // Limits to prevent infinite speed gain/loss
     }
 
@@ -290,4 +291,8 @@ public class Rover1Controller : MonoBehaviour, IRoverController
         wheelTransform.position = pos;
     }
 >>>>>>>> implementented-second-rover:Assets/Player/Rover1/Rover1Controller.cs
+
+    public void SetRoverName(string name) {
+        roverName = name;
+    }
 }

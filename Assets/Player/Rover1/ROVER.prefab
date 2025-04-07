@@ -1210,6 +1210,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d49d86dfb5b069242976edb6578bbae0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rover: {fileID: 5611762473178465166}
+  roverName: Rover
   useAI: 1
   motorForce: 5000
   brakeForce: 5000
@@ -1226,6 +1228,25 @@ MonoBehaviour:
   rearRightWheelTransform: {fileID: 2067914123177004638}
   middleLeftWheelTransform: {fileID: 250970538291593467}
   middleRightWheelTransform: {fileID: 6896622098677511576}
+--- !u!114 &627512579035969439
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4447756694073025737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99502ecdf9c6db44ebbc60d0752b3d0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  turnDuration: 2
+  brakeDuration: 4
+  reverseDuration: 2
+  raycastDistance: 0
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &4654592242176792747
 GameObject:
   m_ObjectHideFlags: 0
