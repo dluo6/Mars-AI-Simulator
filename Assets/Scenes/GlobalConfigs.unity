@@ -3474,6 +3474,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeLimit: 1
   numRovers: 1
+  simulationTimeElapsed: 0
+  rovers: []
 --- !u!4 &1917560350
 Transform:
   m_ObjectHideFlags: 0

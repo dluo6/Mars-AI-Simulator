@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class RoverController : MonoBehaviour
@@ -6,6 +7,7 @@ public class RoverController : MonoBehaviour
     private float horizontalInput, verticalInput;
     private float currentSteerAngle, currentBrakeForce;
     private bool isBraking;
+    public string roverName = "Rover";
     
     // AI & Manual Control Toggle
     [SerializeField] public bool useAI = true;  // Game starts in AI mode
@@ -141,5 +143,9 @@ public class RoverController : MonoBehaviour
         wheelCollider.GetWorldPose(out pos, out rot);
         wheelTransform.rotation = rot;
         wheelTransform.position = pos;
+    }
+
+    public void SetRoverName(string name) {
+        roverName = name;
     }
 }

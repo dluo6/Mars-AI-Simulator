@@ -86,4 +86,8 @@ public class CheckWetArea : MonoBehaviour
             }
         }
     }
+
+    public void setTerrain(Terrain inputTerrain) {
+        terrain = inputTerrain;
+    }
 }
