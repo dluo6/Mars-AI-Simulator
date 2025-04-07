@@ -2,6 +2,7 @@ using UnityEngine;
 using System.IO;
 using System.Text;
 using System.Collections.Generic;
+using System.Collections;
 
 public class MarsClimate : MonoBehaviour
 {
@@ -19,22 +20,13 @@ public class MarsClimate : MonoBehaviour
     private float[,] soilMoistureMap;
 
 
-    private void Start()
+    public IEnumerator ApplyClimate()
     {
-        Debug.Log("Mars Climate Initiating!!!");
-
         int heightMapResolution = marsTerrain.terrainData.heightmapResolution;
         tempMap = new float[heightMapResolution, heightMapResolution];
         humidityMap = new float[heightMapResolution, heightMapResolution];
         soilMoistureMap = new float[heightMapResolution, heightMapResolution];
-        
-        ApplyClimate();
-    }
-
-
-    private void ApplyClimate()
-    {
-        int heightMapResolution = marsTerrain.terrainData.heightmapResolution; 
+        int rowsPerFrame = Mathf.Max(1, heightMapResolution / 100); // Adjust divisor for speed
         float[,] heights = marsTerrain.terrainData.GetHeights(0, 0, heightMapResolution, heightMapResolution);
 
         float yConversionUnit = marsTerrain.terrainData.size.y;
@@ -60,11 +52,9 @@ public class MarsClimate : MonoBehaviour
                 humidityMap[x, y] = humidity;
                 soilMoistureMap[x, y] = soilMoisture;
             }
+            if (x % rowsPerFrame == 0) yield return null;
         }
         Debug.Log("Done applying climate!!");
-
-        // Below function is an expensive operation, i would suggest not to run it unless absolutely necessary to debug values at large
-        //SaveMapsToCSV();
     }
 
 
