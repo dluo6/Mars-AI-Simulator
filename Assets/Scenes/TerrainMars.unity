@@ -3358,7 +3358,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d675ddb6da19211f1ab4103b2d7c3f89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Rovers: []
+  Rovers:
+  - {fileID: 9101318519882277602}
+  - {fileID: 576412063523961536}
   switchKey: 9
   spawnHeight: 5
 --- !u!114 &1961022436
