@@ -484,7 +484,7 @@ Transform:
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
   m_LocalRotation: {x: 0.06886153, y: -0.7394364, z: 0.07653407, w: 0.6653078}
-  m_LocalPosition: {x: 23547.3, y: 275.1, z: 18412.98}
+  m_LocalPosition: {x: 23549.072, y: 278.4575, z: 18410.865}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3095,7 +3095,7 @@ MonoBehaviour:
   m_StreamingVersion: 20241001
   m_LegacyPriority: 0
   Target:
-    TrackingTarget: {fileID: 0}
+    TrackingTarget: {fileID: 6183827026172426092}
     LookAtTarget: {fileID: 0}
     CustomLookAtTarget: 0
   Lens:
@@ -3127,7 +3127,7 @@ Transform:
   m_GameObject: {fileID: 1795679544}
   serializedVersion: 2
   m_LocalRotation: {x: 0.06886153, y: -0.7394364, z: 0.07653407, w: 0.6653078}
-  m_LocalPosition: {x: 23547.3, y: 275.1, z: 18412.98}
+  m_LocalPosition: {x: 23549.072, y: 278.4575, z: 18410.865}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3334,17 +3334,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minMoveTime: 0
   maxMoveTime: 0
-  turnDuration: 0
+  turnDuration: 2
   uphillMultiplier: 0
   downhillMultiplier: 0
   steepSlopeThreshold: 0
   maxDownhillSlope: 0
-  brakeDuration: 0
-  reverseDuration: 0
-  raycastDistance: 0
+  brakeDuration: 4
+  reverseDuration: 2
+  raycastDistance: 8
   groundLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1
   roverManager: {fileID: 0}
 --- !u!114 &1961022435
 MonoBehaviour:
