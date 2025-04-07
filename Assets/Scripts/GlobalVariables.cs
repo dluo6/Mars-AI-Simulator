@@ -10,6 +10,7 @@ public class GlobalVariables : MonoBehaviour
     public float simulationTimeElapsed = 0;
     
     public List<GameObject> rovers = new List<GameObject>();
+    public int currentRoverIndex = 0;
 
     void Awake()
     {
