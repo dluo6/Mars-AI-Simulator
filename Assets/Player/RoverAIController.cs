@@ -3,11 +3,12 @@ using UnityEngine;
 
 public class RoverAIController : MonoBehaviour
 {
-    private RoverController roverController;
+    private IRoverController roverController;
+
     private Rigidbody rb;
     private float moveTime;
     // private bool isTurning;
-    
+
     [SerializeField] private float minMoveTime;
     [SerializeField] private float maxMoveTime;
     [SerializeField] private float turnDuration;
@@ -18,20 +19,49 @@ public class RoverAIController : MonoBehaviour
     [SerializeField] private float brakeDuration; // Time to brake before reversing
     [SerializeField] private float reverseDuration; // Time to reverse before turning
 
-    private float direction = 0; 
+    private float direction = 0;
     private float driveDirection = 1;
     private float baseMotorForce;
 
     [SerializeField] private float raycastDistance; // Distance to detect slope
     [SerializeField] private LayerMask groundLayer; // Layer mask for ground
 
+    [SerializeField] private RoverManager roverManager;
+
+
     private void Start()
     {
-        roverController = GetComponent<RoverController>();
-        GetComponent<Rigidbody>().centerOfMass = new Vector3(0, -1.5f, 0); // Lower the center
-        rb = GetComponent<Rigidbody>();
+        // Initialize from RoverManager instead of GetComponent
+        if (roverManager == null) roverManager = FindAnyObjectByType<RoverManager>();
+
+        if (roverManager != null)
+        {
+            roverManager.OnRoverChanged += HandleRoverChange;
+            InitializeForCurrentrover();
+        }
+    }
+
+    private void HandleRoverChange(GameObject newRover)
+    {
+        roverController = newRover.GetComponent<IRoverController>();
+        rb = newRover.GetComponent<Rigidbody>();
+
+
+        if (rb != null)
+        {
+            rb.centerOfMass = new Vector3(0, -1.5f, 0);
+        }
+
         baseMotorForce = roverController.GetMotorForce();
-        StartCoroutine(Roam());
+
+    }
+
+    private void InitializeForCurrentrover()
+    {
+        if (roverManager != null && roverManager.CurrentRover != null)
+        {
+            HandleRoverChange(roverManager.CurrentRover);
+        }
     }
 
     private void FixedUpdate()
@@ -58,7 +88,7 @@ public class RoverAIController : MonoBehaviour
             if (roverController.useAI)
             {
                 moveTime = Random.Range(minMoveTime, maxMoveTime);
-                direction = 0; 
+                direction = 0;
 
                 // Randomly decide to go forward or backward
                 driveDirection = Random.value > 0.5f ? 1f : -1f;
@@ -80,13 +110,13 @@ public class RoverAIController : MonoBehaviour
     private bool IsSteepDownhill()
     {
         RaycastHit hit;
-        Vector3 raycastOrigin = new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z - 1f);
-        Vector3 raycastDirection = Vector3.down; 
+        Vector3 raycastOrigin = new Vector3(roverController.transform.position.x, roverController.transform.position.y + 1f, roverController.transform.position.z - 1f);
+        Vector3 raycastDirection = Vector3.down;
 
         if (Physics.Raycast(raycastOrigin, raycastDirection, out hit, raycastDistance, groundLayer))
         {
             float slopeAngle = Vector3.Angle(hit.normal, Vector3.up);
-            return slopeAngle > maxDownhillSlope; 
+            return slopeAngle > maxDownhillSlope;
         }
         return false;
     }
@@ -94,7 +124,7 @@ public class RoverAIController : MonoBehaviour
     private void AdjustSpeedBasedOnSlope()
     {
         RaycastHit hit;
-        Vector3 raycastOrigin = transform.position + Vector3.up * 1f; // Raycast from the center of the rover
+        Vector3 raycastOrigin = roverController.transform.position + Vector3.up * 1f; // Raycast from the center of the rover
         Vector3 raycastDirection = Vector3.down;
 
         Debug.DrawRay(raycastOrigin, raycastDirection * raycastDistance, Color.red);
@@ -104,11 +134,11 @@ public class RoverAIController : MonoBehaviour
             float slopeAngle = Vector3.Angle(hit.normal, Vector3.up);
 
             // Calculate the angle between the rover's forward direction and the global "up" vector
-            float roverPitchAngle = Vector3.Angle(transform.forward, Vector3.up) - 90f; // Subtract 90 to get pitch relative to horizontal
+            float roverPitchAngle = Vector3.Angle(roverController.transform.forward, Vector3.up) - 90f; // Subtract 90 to get pitch relative to horizontal
 
             Debug.Log($"Slope Angle: {slopeAngle}, Rover Pitch Angle: {roverPitchAngle}");
 
-            if (slopeAngle > 10f) 
+            if (slopeAngle > 10f)
             {
                 if (roverPitchAngle < -5f) // Downhill (rover is pointing downwards)
                 {
@@ -151,7 +181,7 @@ public class RoverAIController : MonoBehaviour
         roverController.ApplyBraking();
         yield return new WaitForSeconds(brakeDuration);
 
-        roverController.SetInputs(0, -1); // Reverse
+        roverController.SetInputs(0, 1); // Reverse
         yield return new WaitForSeconds(reverseDuration);
 
         // isTurning = true;

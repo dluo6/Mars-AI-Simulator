@@ -1,7 +1,6 @@
-using System.Collections;
 using UnityEngine;
 
-public class RoverController : MonoBehaviour
+public class Rover2Controller : MonoBehaviour, IRoverController
 {
     private float horizontalInput, verticalInput;
     private float currentSteerAngle, currentBrakeForce;
@@ -9,6 +8,11 @@ public class RoverController : MonoBehaviour
 
     // AI & Manual Control Toggle
     [SerializeField] public bool useAI = true;  // Game starts in AI mode
+    bool IRoverController.useAI
+    {
+        get => useAI;
+        set => useAI = value;
+    }
 
     // Settings
     [SerializeField] private float motorForce;
@@ -18,15 +22,15 @@ public class RoverController : MonoBehaviour
     // Wheel Colliders
     [SerializeField] private WheelCollider frontLeftWheelCollider, frontRightWheelCollider;
     [SerializeField] private WheelCollider rearLeftWheelCollider, rearRightWheelCollider;
-    [SerializeField] private WheelCollider middleLeftWheelCollider, middleRightWheelCollider;
 
     // Wheels
     [SerializeField] private Transform frontLeftWheelTransform, frontRightWheelTransform;
     [SerializeField] private Transform rearLeftWheelTransform, rearRightWheelTransform;
-    [SerializeField] private Transform middleLeftWheelTransform, middleRightWheelTransform;
 
     private float baseMotorForce; // Store the base motor force for resetting
     private float adjustedMotorForce; // Temporary adjusted motor force
+
+    public Transform RoverTransform => transform;
 
     private void Start()
     {
@@ -106,8 +110,6 @@ public class RoverController : MonoBehaviour
         frontLeftWheelCollider.brakeTorque = currentBrakeForce;
         rearLeftWheelCollider.brakeTorque = currentBrakeForce;
         rearRightWheelCollider.brakeTorque = currentBrakeForce;
-        middleLeftWheelCollider.brakeTorque = currentBrakeForce;
-        middleRightWheelCollider.brakeTorque = currentBrakeForce;
     }
 
     private void HandleSteering()
@@ -123,8 +125,6 @@ public class RoverController : MonoBehaviour
         UpdateSingleWheel(frontRightWheelCollider, frontRightWheelTransform);
         UpdateSingleWheel(rearRightWheelCollider, rearRightWheelTransform);
         UpdateSingleWheel(rearLeftWheelCollider, rearLeftWheelTransform);
-        UpdateSingleWheel(middleRightWheelCollider, middleRightWheelTransform);
-        UpdateSingleWheel(middleLeftWheelCollider, middleLeftWheelTransform);
     }
 
     private void UpdateSingleWheel(WheelCollider wheelCollider, Transform wheelTransform)
