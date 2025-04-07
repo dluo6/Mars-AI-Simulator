@@ -1,30 +1,61 @@
+// GenerateRandomWaterSources() picks random (x, z) coordinates between paintRadius 
+// and (terrainWidth - paintRadius) so each wet circle is fully contained within the terrain boundaries.
+
+// PaintWetAreas() carries out the alpha painting logic.
+
+// Adjust the following fields:
+// numberOfWetAreas
+// paintRadius
+
+
 using UnityEngine;
 using System.Collections.Generic;
 
 public class GenerateWetAreas : MonoBehaviour
 {
     public Terrain targetTerrain;
+
+    // Index of the dark texture
     public int darkTextureIndex = 1;
+
+    // Radius of the painted wet area
     public float paintRadius = 500f;
 
-    // Expose the water sources as a public static list.
-    public static readonly List<Vector3> WaterSources = new List<Vector3>
-    {
-        new Vector3(48230.5f, 0f, 31548.2f),
-        new Vector3(13845.7f, 0f, 44719.3f),
-        new Vector3(42175.3f, 0f, 35982.1f),
-        new Vector3(30592.8f, 0f, 10237.6f),
-        new Vector3(5723.1f, 0f, 27485.4f),
-        new Vector3(37984.5f, 0f, 49821.0f),
-        new Vector3(21847.2f, 0f, 38267.9f),
-        new Vector3(44312.0f, 0f, 17584.3f),
-        new Vector3(15673.4f, 0f, 25419.7f),
-        new Vector3(23077.3f, 0f, 18607.9f)
-    };
+    // number of random wet areas to create
+    public int numberOfWetAreas = 15;
+
+    // We’ll fill this list at runtime with random points
+    public static List<Vector3> WaterSources = new List<Vector3>();
 
     void Start()
     {
+        GenerateRandomWaterSources();
         PaintWetAreas();
+    }
+
+    private void GenerateRandomWaterSources()
+    {
+        // Clear any existing points
+        WaterSources.Clear();
+
+        if (targetTerrain == null)
+        {
+            Debug.LogWarning("No terrain assigned to GenerateWetAreas!");
+            return;
+        }
+
+        // The terrain’s usable XZ size is 0..50000
+        // We must stay paintRadius away from each boundary
+        // so we don’t paint off the edges
+        float min = paintRadius;
+        float max = targetTerrain.terrainData.size.x - paintRadius; // e.g. 50000 - 500 = 49500
+
+        for (int i = 0; i < numberOfWetAreas; i++)
+        {
+            float randomX = Random.Range(min, max);
+            float randomZ = Random.Range(min, max);
+            WaterSources.Add(new Vector3(randomX, 0f, randomZ));
+        }
     }
 
     public void PaintWetAreas()
@@ -39,9 +70,10 @@ public class GenerateWetAreas : MonoBehaviour
         // Get the current alpha map
         float[,,] alphaMap = terrainData.GetAlphamaps(0, 0, width, height);
 
-        // Use the water sources defined above to paint wet areas.
+        // Use the WaterSources we just randomly created
         foreach (Vector3 paintCenter in WaterSources)
         {
+            // Convert world coordinates to alpha map indices
             int alphaX = Mathf.RoundToInt((paintCenter.x / terrainData.size.x) * width);
             int alphaZ = Mathf.RoundToInt((paintCenter.z / terrainData.size.z) * height);
             int alphaRadius = Mathf.RoundToInt((paintRadius / terrainData.size.x) * width);
@@ -51,6 +83,7 @@ public class GenerateWetAreas : MonoBehaviour
             int minY = Mathf.Max(0, alphaZ - alphaRadius);
             int maxY = Mathf.Min(height - 1, alphaZ + alphaRadius);
 
+            // Paint a circle of the "wet" texture
             for (int y = minY; y <= maxY; y++)
             {
                 for (int x = minX; x <= maxX; x++)
@@ -61,6 +94,7 @@ public class GenerateWetAreas : MonoBehaviour
                         for (int i = 0; i < layers; i++)
                             alphaMap[y, x, i] = 0f;
 
+                        // Paint the dark texture
                         alphaMap[y, x, darkTextureIndex] = 1f;
                     }
                 }
