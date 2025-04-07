@@ -40,6 +40,7 @@ public class GlobalVariables : MonoBehaviour
         if (rovers.Contains(obj))
         {
             rovers.Remove(obj);
+            Destroy(obj);
         }
     }
 }
