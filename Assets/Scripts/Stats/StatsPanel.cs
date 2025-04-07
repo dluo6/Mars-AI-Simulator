@@ -18,9 +18,9 @@ public class StatsPanel : MonoBehaviour
     void Update()
     {
         GameObject rover = GlobalVariables.Instance.rovers[GlobalVariables.Instance.currentRoverIndex];
-        RoverController roverController = rover.GetComponent<RoverController>();
+        IRoverController roverController = rover.GetComponent<IRoverController>();
         roverPosition = rover.transform.position;
-        speedText.text = "SPEED: " + ((int) roverController.GetCurrentSpeed()).ToString() + " m/s";
+        speedText.text = "SPEED: " + ((int)roverController.GetCurrentSpeed()).ToString() + " m/s";
         temperatureText.text = "Temperature: " + marsClimate.GetTemperatureAtPosition(roverPosition).ToString("F2") + " C";
         humidityText.text = "Humidity: " + (marsClimate.GetHumidityAtPosition(roverPosition) * 100f).ToString("F2") + "%";
         soilMoistureText.text = "Soil Moisture: " + (marsClimate.GetSoilMoistureAtPosition(roverPosition) * 100f).ToString("F2") + "%";

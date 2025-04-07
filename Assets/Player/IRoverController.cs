@@ -7,4 +7,7 @@ public interface IRoverController
     void ApplyBraking();
     bool useAI { get; set; }
     Transform transform { get; }
+    string RoverName { get; set; }
+
+    float GetCurrentSpeed();
 }

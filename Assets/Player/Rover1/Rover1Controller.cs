@@ -15,6 +15,14 @@ public class Rover1Controller : MonoBehaviour, IRoverController
         set => useAI = value;
     }
 
+    [SerializeField] private string _roverName = "Rover";
+
+    public string RoverName
+    {
+        get => _roverName;
+        set => _roverName = value;
+    }
+
     // Settings
     [SerializeField] private float motorForce;
     [SerializeField] private float brakeForce;
@@ -35,6 +43,14 @@ public class Rover1Controller : MonoBehaviour, IRoverController
 
     public Transform RoverTransform => transform;
 
+
+    private Rigidbody rb;
+
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+        rb.centerOfMass = new Vector3(0, -1.5f, 0);
+    }
     private void Start()
     {
         baseMotorForce = motorForce; // Store the initial motor force
@@ -141,5 +157,11 @@ public class Rover1Controller : MonoBehaviour, IRoverController
         wheelCollider.GetWorldPose(out pos, out rot);
         wheelTransform.rotation = rot;
         wheelTransform.position = pos;
+    }
+
+    public float GetCurrentSpeed()
+    {
+        if (rb == null) return 0f;
+        return rb.linearVelocity.magnitude;
     }
 }

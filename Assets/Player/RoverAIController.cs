@@ -1,51 +1,63 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class RoverAIController : MonoBehaviour
 {
     private IRoverController roverController;
-
     private Rigidbody rb;
     private float moveTime;
-    // private bool isTurning;
+    private float baseMotorForce;
 
+    // Steering variables
+    private float direction = 0;
+    private float driveDirection = 1;
+
+    // New water-seeking variables from first script
+    private float targetReachedThreshold = 450f;
+    private Vector3 currentWaterTarget;
+    private bool hasTarget = false;
+    private List<Vector3> visitedWaterSources = new List<Vector3>();
+    private CheckWetArea checkWetArea;
+
+    [Header("Movement Settings")]
     [SerializeField] private float minMoveTime;
     [SerializeField] private float maxMoveTime;
     [SerializeField] private float turnDuration;
     [SerializeField] private float uphillMultiplier;
     [SerializeField] private float downhillMultiplier;
-    [SerializeField] private float steepSlopeThreshold; // Prevent turns on steep slopes
-    [SerializeField] private float maxDownhillSlope; // Avoid downhill slopes steeper than 30 degrees
-    [SerializeField] private float brakeDuration; // Time to brake before reversing
-    [SerializeField] private float reverseDuration; // Time to reverse before turning
-
-    private float direction = 0;
-    private float driveDirection = 1;
-    private float baseMotorForce;
-
-    [SerializeField] private float raycastDistance; // Distance to detect slope
-    [SerializeField] private LayerMask groundLayer; // Layer mask for ground
+    [SerializeField] private float steepSlopeThreshold;
+    [SerializeField] private float maxDownhillSlope;
+    [SerializeField] private float brakeDuration;
+    [SerializeField] private float reverseDuration;
+    [SerializeField] private float raycastDistance;
+    [SerializeField] private LayerMask groundLayer;
 
     [SerializeField] private RoverManager roverManager;
 
-
     private void Start()
     {
-        // Initialize from RoverManager instead of GetComponent
         if (roverManager == null) roverManager = FindAnyObjectByType<RoverManager>();
 
         if (roverManager != null)
         {
             roverManager.OnRoverChanged += HandleRoverChange;
-            InitializeForCurrentrover();
+            if (roverManager != null && roverManager.CurrentRover != null)
+            {
+                HandleRoverChange(roverManager.CurrentRover);
+            }
         }
+
+        checkWetArea = GetComponent<CheckWetArea>(); // From first script
+        StartCoroutine(SeekWater()); // From first script
     }
 
+
+    // Rest of your existing methods...
     private void HandleRoverChange(GameObject newRover)
     {
         roverController = newRover.GetComponent<IRoverController>();
         rb = newRover.GetComponent<Rigidbody>();
-
 
         if (rb != null)
         {
@@ -53,32 +65,73 @@ public class RoverAIController : MonoBehaviour
         }
 
         baseMotorForce = roverController.GetMotorForce();
-
     }
 
-    private void InitializeForCurrentrover()
+    // New water-seeking coroutine from first script
+    private IEnumerator SeekWater()
     {
-        if (roverManager != null && roverManager.CurrentRover != null)
+        while (true)
         {
-            HandleRoverChange(roverManager.CurrentRover);
+            if (!roverController.useAI)
+            {
+                yield return null;
+                continue;
+            }
+
+            if (!hasTarget)
+            {
+                currentWaterTarget = FindClosestWaterSource();
+                if (currentWaterTarget != Vector3.zero)
+                {
+                    hasTarget = true;
+                    Debug.Log("New water target: " + currentWaterTarget);
+                }
+                else
+                {
+                    Debug.Log("All water sources visited");
+                    yield break;
+                }
+            }
+
+            Vector3 toTarget = currentWaterTarget - roverController.transform.position;
+            float distanceToTarget = toTarget.magnitude;
+
+            if (distanceToTarget < targetReachedThreshold &&
+                checkWetArea != null && checkWetArea.IsOnWetArea)
+            {
+                visitedWaterSources.Add(currentWaterTarget);
+                hasTarget = false;
+                yield return new WaitForSeconds(2f);
+                continue;
+            }
+
+            float angle = Vector3.SignedAngle(roverController.transform.forward, toTarget, Vector3.up);
+            direction = Mathf.Clamp(-angle / 45f, -1f, 1f);
+            driveDirection = 1f;
+
+            yield return null;
         }
     }
 
-    private void FixedUpdate()
+    // New water source finding from first script
+    private Vector3 FindClosestWaterSource()
     {
-        if (roverController.useAI)
+        Vector3 closest = Vector3.zero;
+        float minDistance = Mathf.Infinity;
+
+        foreach (Vector3 waterSource in GenerateWetAreas.WaterSources)
         {
-            // Always adjust speed based on slope
-            AdjustSpeedBasedOnSlope();
+            if (visitedWaterSources.Contains(waterSource))
+                continue;
 
-            roverController.SetInputs(direction, driveDirection);
-
-            // Check for steep downhill and avoid it
-            if (IsSteepDownhill())
+            float distance = Vector3.Distance(roverController.transform.position, waterSource);
+            if (distance < minDistance)
             {
-                StartCoroutine(BrakeAndReverse());
+                minDistance = distance;
+                closest = waterSource;
             }
         }
+        return closest;
     }
 
     private IEnumerator Roam()
