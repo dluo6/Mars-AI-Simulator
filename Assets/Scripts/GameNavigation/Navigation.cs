@@ -34,6 +34,8 @@ public class Navigation : MonoBehaviour
 
     public void ViewResults()
     {
+        // Freeze the game while viewing results
+        Time.timeScale = 0f;
         SceneManager.LoadScene("MidGameProgress");
     }
 }
