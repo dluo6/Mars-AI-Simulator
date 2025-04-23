@@ -69,9 +69,10 @@ public class MapToTerrain : MonoBehaviour, IPointerClickHandler
     public void AddRover()
     {
         // Add the rover and its name to keep for the simulation itself
-        RoverController roverController = currentRover.GetComponent<RoverController>();
-        if (nameInput.text != "") {
-            roverController.SetRoverName(nameInput.text);
+        IRoverController roverController = currentRover.GetComponent<IRoverController>();
+        if (nameInput.text != "")
+        {
+            roverController.RoverName = nameInput.text;
         }
         GlobalVariables.Instance.AddToList(currentRover);
         curNumRovers += 1;
