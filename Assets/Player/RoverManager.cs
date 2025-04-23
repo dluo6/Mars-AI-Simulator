@@ -4,8 +4,8 @@ public class RoverManager : MonoBehaviour
 {
 
     private string PlayerName;
-    private GameObject rover1Prefab;
-    private GameObject rover2Prefab;
+    [SerializeField] private GameObject rover1Prefab;
+    [SerializeField] private GameObject rover2Prefab;
     public KeyCode switchKey = KeyCode.Tab;
     public float spawnHeight = 5f; // Adjust this in Inspector to change drop height
     public GameObject[] Rovers;
