@@ -6,24 +6,11 @@ public class Rover1Controller : MonoBehaviour, IRoverController
     private float horizontalInput, verticalInput;
     private float currentSteerAngle, currentBrakeForce;
     private bool isBraking;
-
-    // AI & Manual Control Toggle
-    [SerializeField] public bool useAI = true;  // Game starts in AI mode
-    bool IRoverController.useAI
-    {
-        get => useAI;
-        set => useAI = value;
-    }
-
-    [SerializeField] private string _roverName = "Rover";
-
-    public string RoverName
-    {
-        get => _roverName;
-        set => _roverName = value;
-    }
+    public bool useAI = true;
 
     // Settings
+    private float baseMotorForce;
+    private float adjustedMotorForce;
     [SerializeField] private float motorForce;
     [SerializeField] private float brakeForce;
     [SerializeField] private float maxSteerAngle;
@@ -38,13 +25,12 @@ public class Rover1Controller : MonoBehaviour, IRoverController
     [SerializeField] private Transform rearLeftWheelTransform, rearRightWheelTransform;
     [SerializeField] private Transform middleLeftWheelTransform, middleRightWheelTransform;
 
-    private float baseMotorForce; // Store the base motor force for resetting
-    private float adjustedMotorForce; // Temporary adjusted motor force
-
+    // Rover Body
     public Transform RoverTransform => transform;
-
-
     private Rigidbody rb;
+
+    private float flipThreshold = 80f; // Angle to consider upside-down
+    private float respawnHeight = 3f;
 
     private void Awake()
     {
@@ -53,8 +39,8 @@ public class Rover1Controller : MonoBehaviour, IRoverController
     }
     private void Start()
     {
-        baseMotorForce = motorForce; // Store the initial motor force
-        adjustedMotorForce = baseMotorForce; // Initialize adjusted motor force
+        baseMotorForce = motorForce;
+        adjustedMotorForce = baseMotorForce;
     }
 
     private void Update()
@@ -64,6 +50,11 @@ public class Rover1Controller : MonoBehaviour, IRoverController
         {
             useAI = !useAI;
             Debug.Log(useAI ? "AI Control Enabled" : "Manual Control Enabled");
+        }
+
+        if (Vector3.Angle(transform.up, Vector3.up) > flipThreshold)
+        {
+            RespawnRover();
         }
     }
 
@@ -75,20 +66,16 @@ public class Rover1Controller : MonoBehaviour, IRoverController
         UpdateWheels();
     }
 
+    // Manual user inputs
     private void GetInput()
     {
         if (!useAI)
         {
-            // Manual Steering Input
+
             horizontalInput = Input.GetAxis("Horizontal");
-
-            // Manual Acceleration Input
             verticalInput = -Input.GetAxis("Vertical");
-
-            // Braking Input
             isBraking = Input.GetKey(KeyCode.Space);
         }
-        // AI will set `horizontalInput` and `verticalInput` externally via `SetInputs()`
     }
 
     // Allow AI to set movement inputs
@@ -163,5 +150,23 @@ public class Rover1Controller : MonoBehaviour, IRoverController
     {
         if (rb == null) return 0f;
         return rb.linearVelocity.magnitude;
+    }
+
+    bool IRoverController.useAI
+    {
+        get => useAI;
+        set => useAI = value;
+    }
+
+    private void RespawnRover()
+    {
+        transform.position += Vector3.up * respawnHeight;
+        transform.rotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);
+
+        if (TryGetComponent<Rigidbody>(out var rb))
+        {
+            rb.linearVelocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+        }
     }
 }

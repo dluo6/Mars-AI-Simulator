@@ -5,24 +5,11 @@ public class Rover2Controller : MonoBehaviour, IRoverController
     private float horizontalInput, verticalInput;
     private float currentSteerAngle, currentBrakeForce;
     private bool isBraking;
+    public bool useAI = true;
 
-    // AI & Manual Control Toggle
-    [SerializeField] public bool useAI = true;  // Game starts in AI mode
-    bool IRoverController.useAI
-    {
-        get => useAI;
-        set => useAI = value;
-    }
-
-
-    [SerializeField] private string _roverName = "Rover";
-
-    public string RoverName
-    {
-        get => _roverName;
-        set => _roverName = value;
-    }
     // Settings
+    private float baseMotorForce;
+    private float adjustedMotorForce;
     [SerializeField] private float motorForce;
     [SerializeField] private float brakeForce;
     [SerializeField] private float maxSteerAngle;
@@ -35,11 +22,12 @@ public class Rover2Controller : MonoBehaviour, IRoverController
     [SerializeField] private Transform frontLeftWheelTransform, frontRightWheelTransform;
     [SerializeField] private Transform rearLeftWheelTransform, rearRightWheelTransform;
 
-    private float baseMotorForce; // Store the base motor force for resetting
-    private float adjustedMotorForce; // Temporary adjusted motor force
-
+    // Rover Body
     public Transform RoverTransform => transform;
-    private Rigidbody rb;  // New private field
+    private Rigidbody rb;
+
+    private float flipThreshold = 80f; // Angle to consider upside-down
+    private float respawnHeight = 3f;
 
     private void Awake()
     {
@@ -155,4 +143,23 @@ public class Rover2Controller : MonoBehaviour, IRoverController
         if (rb == null) return 0f;
         return rb.linearVelocity.magnitude;
     }
+
+    bool IRoverController.useAI
+    {
+        get => useAI;
+        set => useAI = value;
+    }
+
+    private void RespawnRover()
+    {
+        transform.position += Vector3.up * respawnHeight;
+        transform.rotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);
+
+        if (TryGetComponent<Rigidbody>(out var rb))
+        {
+            rb.linearVelocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+        }
+    }
+
 }

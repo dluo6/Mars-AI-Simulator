@@ -2,17 +2,24 @@ using UnityEngine;
 
 public class RoverManager : MonoBehaviour
 {
-    public GameObject[] Rovers;
-    private int currentRoverIndex = 0;
 
+    private string PlayerName;
+    private GameObject rover1Prefab;
+    private GameObject rover2Prefab;
     public KeyCode switchKey = KeyCode.Tab;
     public float spawnHeight = 5f; // Adjust this in Inspector to change drop height
-
+    public GameObject[] Rovers;
+    private int currentRoverIndex = 0;
     public event System.Action<GameObject> OnRoverChanged;
-    public GameObject CurrentRover => Rovers[currentRoverIndex];
+    public GameObject CurrentActiveRover => Rovers[currentRoverIndex];
 
     void Start()
     {
+
+        // Instantiate both rovers from your prefabs
+        Rovers = new GameObject[2];
+        Rovers[0] = Instantiate(rover1Prefab, transform.position, Quaternion.identity);
+        Rovers[1] = Instantiate(rover2Prefab, transform.position + Vector3.right * 3f, Quaternion.identity);
         SetActiveRover(currentRoverIndex);
     }
 
@@ -27,20 +34,21 @@ public class RoverManager : MonoBehaviour
     void SwitchRover()
     {
         // Store current position and rotation
-        Vector3 currentPosition = Rovers[currentRoverIndex].transform.position;
-        Quaternion currentRotation = Rovers[currentRoverIndex].transform.rotation;
+        Vector3 currentPosition = CurrentActiveRover.transform.position;
+        Quaternion currentRotation = CurrentActiveRover.transform.rotation;
 
-        // Deactivate current Rover
-        Rovers[currentRoverIndex].SetActive(false);
+        // Deactivate current rover
+        CurrentActiveRover.SetActive(false);
 
-        // Move to next Rover
+        // Move to next rover
         currentRoverIndex = (currentRoverIndex + 1) % Rovers.Length;
 
-        // Set new Rover's position (with height offset) and activate
+        // Position and activate new rover
         Rovers[currentRoverIndex].transform.position = currentPosition + Vector3.up * spawnHeight;
         Rovers[currentRoverIndex].transform.rotation = currentRotation;
-        OnRoverChanged?.Invoke(Rovers[currentRoverIndex]);
         Rovers[currentRoverIndex].SetActive(true);
+
+        OnRoverChanged?.Invoke(CurrentActiveRover);
     }
 
     void SetActiveRover(int index)
@@ -49,5 +57,15 @@ public class RoverManager : MonoBehaviour
         {
             Rovers[i].SetActive(i == index);
         }
+    }
+
+    public void SetPlayerName(string newName)
+    {
+        PlayerName = newName;
+    }
+
+    string GetPlayerName()
+    {
+        return PlayerName;
     }
 }

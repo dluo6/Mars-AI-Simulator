@@ -10,13 +10,13 @@ public class MapToTerrain : MonoBehaviour, IPointerClickHandler
     public Terrain terrain;
     public Transform cam;
     public Button startButton;
-    public GameObject rover;
+    public GameObject player;
     public GameObject targetPrefab;
     public TMP_InputField nameInput;
     private CanvasGroup mapCanvas;
     private CanvasGroup confirmScreenCanvas;
-    private GameObject currentRover;
-    private int curNumRovers = 0;
+    private GameObject currentPlayer;
+    private int curNumPlayers = 0;
     // This variable stores where on the map was clicked to place the target
     private Vector2 currentLocalPosition;
 
@@ -33,7 +33,7 @@ public class MapToTerrain : MonoBehaviour, IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {
         // Remove ability to add new rovers
-        if (curNumRovers == GlobalVariables.Instance.numRovers) return;
+        if (curNumPlayers == GlobalVariables.Instance.numPlayers) return;
 
         Vector2 localPoint;
         if (RectTransformUtility.ScreenPointToLocalPointInRectangle(map, eventData.position, eventData.pressEventCamera, out localPoint))
@@ -59,23 +59,26 @@ public class MapToTerrain : MonoBehaviour, IPointerClickHandler
         Show(confirmScreenCanvas);
 
         // Instantiate a new rover and show it on camera
-        currentRover = Instantiate(rover, position, new Quaternion(0, 0, 0, 0));
+        currentPlayer = Instantiate(player, position, new Quaternion(0, 0, 0, 0));
+        RoverManager roverManager = currentPlayer.GetComponent<RoverManager>();
+        GameObject activeRover = roverManager.CurrentActiveRover;
+
         Vector3 camPos = position + new Vector3(10, 20, -40);
         cam.position = camPos;
-        cam.LookAt(currentRover.transform);
+        cam.LookAt(activeRover.transform);
         cam.position += new Vector3(-20, 0, 0);
     }
 
-    public void AddRover()
+    public void AddPlayer()
     {
         // Add the rover and its name to keep for the simulation itself
-        IRoverController roverController = currentRover.GetComponent<IRoverController>();
+        RoverManager roverManager = currentPlayer.GetComponent<RoverManager>();
         if (nameInput.text != "")
         {
-            roverController.RoverName = nameInput.text;
+            roverManager.SetPlayerName(nameInput.text);
         }
-        GlobalVariables.Instance.AddToList(currentRover);
-        curNumRovers += 1;
+        GlobalVariables.Instance.AddToList(currentPlayer);
+        curNumPlayers += 1;
 
         // Add the target prefab to the canvas before showing
         GameObject target = Instantiate(targetPrefab, map);
@@ -84,7 +87,7 @@ public class MapToTerrain : MonoBehaviour, IPointerClickHandler
         // Toggle the canvas visibilities and check to display the start button
         Hide(confirmScreenCanvas);
         Show(mapCanvas);
-        if (curNumRovers == GlobalVariables.Instance.numRovers)
+        if (curNumPlayers == GlobalVariables.Instance.numPlayers)
         {
             startButton.gameObject.SetActive(true);
         }
@@ -94,7 +97,7 @@ public class MapToTerrain : MonoBehaviour, IPointerClickHandler
     {
         Hide(confirmScreenCanvas);
         Show(mapCanvas);
-        Destroy(currentRover);
+        Destroy(currentPlayer);
     }
 
     public void Hide(CanvasGroup canvasGroup)

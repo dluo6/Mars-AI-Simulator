@@ -1,11 +1,14 @@
 using UnityEngine;
 
-public class RemoveScripts: MonoBehaviour {
+public class RemoveScripts : MonoBehaviour
+{
 
     public void Start()
     {
-        foreach (GameObject rover in GlobalVariables.Instance.rovers) {
-            DestroyImmediate(rover.GetComponent<CheckWetArea>());
-        }   
+        foreach (GameObject player in GlobalVariables.Instance.players)
+        {
+            GameObject activeRover = player.GetComponent<RoverManager>().CurrentActiveRover;
+            DestroyImmediate(activeRover.GetComponent<CheckWetArea>());
+        }
     }
 }

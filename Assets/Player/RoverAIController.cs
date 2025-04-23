@@ -37,34 +37,8 @@ public class RoverAIController : MonoBehaviour
 
     private void Start()
     {
-        if (roverManager == null) roverManager = FindAnyObjectByType<RoverManager>();
-
-        if (roverManager != null)
-        {
-            roverManager.OnRoverChanged += HandleRoverChange;
-            if (roverManager != null && roverManager.CurrentRover != null)
-            {
-                HandleRoverChange(roverManager.CurrentRover);
-            }
-        }
-
         checkWetArea = GetComponent<CheckWetArea>(); // From first script
         StartCoroutine(SeekWater()); // From first script
-    }
-
-
-    // Rest of your existing methods...
-    private void HandleRoverChange(GameObject newRover)
-    {
-        roverController = newRover.GetComponent<IRoverController>();
-        rb = newRover.GetComponent<Rigidbody>();
-
-        if (rb != null)
-        {
-            rb.centerOfMass = new Vector3(0, -1.5f, 0);
-        }
-
-        baseMotorForce = roverController.GetMotorForce();
     }
 
     // New water-seeking coroutine from first script
