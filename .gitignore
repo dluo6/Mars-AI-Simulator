@@ -103,6 +103,6 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-Assets/Text*/*
+Assets/TextMesh Pro/Examples & Extras/Fonts/Electronic Highway Sign.TTF
 
 # End of https://www.toptal.com/developers/gitignore/api/unity,windows
