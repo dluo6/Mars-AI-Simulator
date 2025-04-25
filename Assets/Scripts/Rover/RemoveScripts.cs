@@ -7,7 +7,7 @@ public class RemoveScripts : MonoBehaviour
     {
         foreach (GameObject player in GlobalVariables.Instance.players)
         {
-            GameObject activeRover = player.GetComponent<RoverManager>().CurrentActiveRover;
+            GameObject activeRover = player.GetComponent<RoverManager>().ActiveRover;
             DestroyImmediate(activeRover.GetComponent<CheckWetArea>());
         }
     }

@@ -60,12 +60,10 @@ public class MapToTerrain : MonoBehaviour, IPointerClickHandler
 
         // Instantiate a new rover and show it on camera
         currentPlayer = Instantiate(player, position, new Quaternion(0, 0, 0, 0));
-        RoverManager roverManager = currentPlayer.GetComponent<RoverManager>();
-        GameObject activeRover = roverManager.CurrentActiveRover;
 
         Vector3 camPos = position + new Vector3(10, 20, -40);
         cam.position = camPos;
-        cam.LookAt(activeRover.transform);
+        cam.LookAt(currentPlayer.transform);
         cam.position += new Vector3(-20, 0, 0);
     }
 
@@ -75,7 +73,7 @@ public class MapToTerrain : MonoBehaviour, IPointerClickHandler
         RoverManager roverManager = currentPlayer.GetComponent<RoverManager>();
         if (nameInput.text != "")
         {
-            roverManager.SetPlayerName(nameInput.text);
+            roverManager.setPlayerName(nameInput.text);
         }
         GlobalVariables.Instance.AddToList(currentPlayer);
         curNumPlayers += 1;

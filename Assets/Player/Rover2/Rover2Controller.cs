@@ -26,9 +26,6 @@ public class Rover2Controller : MonoBehaviour, IRoverController
     public Transform RoverTransform => transform;
     private Rigidbody rb;
 
-    private float flipThreshold = 80f; // Angle to consider upside-down
-    private float respawnHeight = 3f;
-
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -148,18 +145,6 @@ public class Rover2Controller : MonoBehaviour, IRoverController
     {
         get => useAI;
         set => useAI = value;
-    }
-
-    private void RespawnRover()
-    {
-        transform.position += Vector3.up * respawnHeight;
-        transform.rotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);
-
-        if (TryGetComponent<Rigidbody>(out var rb))
-        {
-            rb.linearVelocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
-        }
     }
 
 }
