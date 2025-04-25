@@ -96,8 +96,8 @@ public class Rover2Controller : MonoBehaviour, IRoverController
 
     private void HandleMotor()
     {
-        frontLeftWheelCollider.motorTorque = verticalInput * adjustedMotorForce;
-        frontRightWheelCollider.motorTorque = verticalInput * adjustedMotorForce;
+        frontLeftWheelCollider.motorTorque = -verticalInput * adjustedMotorForce;
+        frontRightWheelCollider.motorTorque = -verticalInput * adjustedMotorForce;
 
         currentBrakeForce = isBraking ? brakeForce : 0f;
         ApplyBraking();
