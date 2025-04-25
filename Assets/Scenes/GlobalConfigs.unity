@@ -3474,6 +3474,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeLimit: 1
   numRovers: 1
+  simulationTimeElapsed: 0
+  rovers: []
+  currentRoverIndex: 0
+  dummyRover: {fileID: 4447756694073025737, guid: d8bbee49d4362087292feade510ea608, type: 3}
 --- !u!4 &1917560350
 Transform:
   m_ObjectHideFlags: 0

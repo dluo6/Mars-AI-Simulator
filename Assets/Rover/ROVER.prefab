@@ -1143,7 +1143,7 @@ Transform:
   m_GameObject: {fileID: 4447756694073025737}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.25, z: 0}
+  m_LocalPosition: {x: 23499, y: 250, z: 14407}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1211,6 +1211,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d49d86dfb5b069242976edb6578bbae0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rover: {fileID: 5611762473178465166}
+  roverName: Rover
   useAI: 1
   motorForce: 5000
   brakeForce: 5000
@@ -1239,15 +1241,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99502ecdf9c6db44ebbc60d0752b3d0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minMoveTime: 5
-  maxMoveTime: 15
   turnDuration: 2
-  uphillMultiplier: 4.5
-  downhillMultiplier: 0.5
-  steepSlopeThreshold: 20
-  maxDownhillSlope: 30
   brakeDuration: 4
   reverseDuration: 2
+  raycastDistance: 0
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &4654592242176792747
 GameObject:
   m_ObjectHideFlags: 0

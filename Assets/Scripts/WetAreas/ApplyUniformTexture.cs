@@ -1,7 +1,3 @@
-// NOTE: This code is only for debugging purposes
-// Press "U" on the keyboard at any time during the game to remove all wet areas
-
-
 using UnityEngine;
 
 public class ApplyUniformTexture : MonoBehaviour
@@ -32,15 +28,17 @@ public class ApplyUniformTexture : MonoBehaviour
         // Safety check
         if (textureIndex < 0 || textureIndex >= layers.Length)
         {
-            Debug.LogError($"textureIndex {textureIndex} is out of range. " +
-                           $"The terrain only has {layers.Length} layers.");
+            Debug.LogError(
+                $"textureIndex {textureIndex} is out of range. " +
+                $"The terrain only has {layers.Length} layers."
+            );
             return;
         }
 
         // Create a new alpha map array
         float[,,] newAlphaMap = new float[alphaMapHeight, alphaMapWidth, alphaMapLayers];
 
-        // We want everything 0 except the chosen texture index = 1
+        // We want every layer = 0 except our chosen texture index = 1
         for (int y = 0; y < alphaMapHeight; y++)
         {
             for (int x = 0; x < alphaMapWidth; x++)
@@ -56,13 +54,21 @@ public class ApplyUniformTexture : MonoBehaviour
         // Apply the uniform alpha map
         terrainData.SetAlphamaps(0, 0, newAlphaMap);
 
-        // Print the name of the layer
+        // Print the name of the layer we used
         string layerName = layers[textureIndex].name;
         Debug.Log($"Painted entire terrain with layer '{layerName}'.");
     }
 
+    // Called right when the game starts
+    void Start()
+    {
+        // Paint the entire terrain with the chosen texture immediately
+        PaintAllSameTexture();
+    }
+
     void Update()
     {
+        // Press "U" at any time to repaint the terrain during play
         if (Input.GetKeyDown(KeyCode.U))
         {
             PaintAllSameTexture();

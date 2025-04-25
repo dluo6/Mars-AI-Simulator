@@ -2205,6 +2205,51 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &853955318
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 853955320}
+  - component: {fileID: 853955319}
+  m_Layer: 0
+  m_Name: Attach Rover Scripts
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &853955319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 853955318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0a0ec9b9f42c8248b3a13d88369354a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  marsTerrain: {fileID: 336805569}
+--- !u!4 &853955320
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 853955318}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 38339.098, y: 226.86533, z: 34412.16}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1085767943
 GameObject:
   m_ObjectHideFlags: 0
@@ -3403,6 +3448,7 @@ MonoBehaviour:
   targetTerrain: {fileID: 336805569}
   darkTextureIndex: 1
   paintRadius: 500
+  numberOfWetAreas: 15
 --- !u!1 &1531740149
 GameObject:
   m_ObjectHideFlags: 0
@@ -3789,6 +3835,56 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1680097934}
   m_CullTransparentMesh: 1
+--- !u!1 &1742283698
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1742283700}
+  - component: {fileID: 1742283699}
+  m_Layer: 0
+  m_Name: Global Vars (Backup)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1742283699
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1742283698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b65cf9c93c9f98b46bfc5bea6cf15fe5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeLimit: 1
+  numRovers: 1
+  simulationTimeElapsed: 0
+  rovers: []
+  currentRoverIndex: 0
+  dummyRover: {fileID: 4447756694073025737, guid: d8bbee49d4362087292feade510ea608, type: 3}
+--- !u!4 &1742283700
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1742283698}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 311.3913, y: 283.3316, z: -0.9292755}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1788614799
 GameObject:
   m_ObjectHideFlags: 0
@@ -5841,6 +5937,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rover: {fileID: 5989009828839317515}
+  roverName: Rover
   useAI: 1
   motorForce: 4500
   brakeForce: 5000
@@ -7214,7 +7311,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   marsTerrain: {fileID: 336805569}
-  rover: {fileID: 3179603545735794517}
   marsClimate: {fileID: 1527724748}
   speedText: {fileID: 209293590}
   temperatureText: {fileID: 1335600929}
@@ -8199,4 +8295,6 @@ SceneRoots:
   - {fileID: 638216745584464578}
   - {fileID: 1558901902}
   - {fileID: 573199578}
+  - {fileID: 853955320}
+  - {fileID: 1742283700}
   - {fileID: 7087881483139601385}

@@ -11,7 +11,8 @@ public class GlobalConfigs : MonoBehaviour
     {
         GlobalVariables.Instance.timeLimit = (int)timeLimit.value;
         GlobalVariables.Instance.numRovers = (int)numRovers.value;
-        // Replace this with the local configs menu
-        SceneManager.LoadScene("TerrainMars");
+        // Remove the dummy rover
+        GlobalVariables.Instance.RemoveFromList(GlobalVariables.Instance.rovers[0]);
+        SceneManager.LoadScene("LocalConfigs");
     }
 }

@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class GlobalVariables : MonoBehaviour
 {
@@ -7,6 +8,10 @@ public class GlobalVariables : MonoBehaviour
     public int timeLimit = 1;
     public int numRovers = 1;
     public float simulationTimeElapsed = 0;
+    
+    public List<GameObject> rovers = new List<GameObject>();
+    public int currentRoverIndex = 0;
+    public GameObject dummyRover;
 
     void Awake()
     {
@@ -14,11 +19,28 @@ public class GlobalVariables : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            GameObject instantiatedDummyRover = Instantiate(dummyRover, new Vector3(23499, 250, 14407), new Quaternion(0,0,0,0));
+            Instance.AddToList(instantiatedDummyRover);
         }
         else
         {
             // to enforce singleton behaviour
             Destroy(gameObject);
+        }
+    }
+
+    public void AddToList(GameObject obj)
+    {
+        rovers.Add(obj);
+        DontDestroyOnLoad(obj);
+    }
+
+    public void RemoveFromList(GameObject obj)
+    {
+        if (rovers.Contains(obj))
+        {
+            rovers.Remove(obj);
+            Destroy(obj);
         }
     }
 }
