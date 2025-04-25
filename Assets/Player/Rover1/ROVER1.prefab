@@ -220,8 +220,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cce1777c4eb427fd8c95e19fbeb285d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  useAI: 0
-  motorForce: 1000
+  useAI: 1
+  motorForce: 1500
   brakeForce: 0
   maxSteerAngle: 30
   frontLeftWheelCollider: {fileID: 9134325086476461862}
