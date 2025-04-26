@@ -20,9 +20,34 @@ public class LeaderboardUIManager : MonoBehaviour
             return;
         }
         
+        // uncomment to add test entry, REMOVE IN PRODUCTION
+        // AddTestEntry();
+
         // load and display the results
         DisplayLeaderboardData();
     }
+
+    // method to test new leaderboard entry
+    // public void AddTestEntry()
+    // {
+    //     // Create a new test rover result
+    //     RoverResult testRover = new RoverResult
+    //     {
+    //         RoverName = "NewRover",
+    //         WaterBodies = 100,
+    //         TerrainDiscovered = 80f,
+    //         TimeElapsed = 300, // 5 minutes
+    //         UserID = 99 // Adjust as needed for your database schema
+    //     };
+        
+    //     // Insert into database
+    //     DatabaseManager.Instance.InsertResult(testRover);
+        
+    //     // Refresh the display to show the new entry
+    //     DisplayLeaderboardData();
+        
+    //     Debug.Log("Added test entry: NewRover with 100 water bodies and 80% terrain discovered");
+    // }
 
     // quits application on click
     public void OnExitClicked() 
