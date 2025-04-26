@@ -20,7 +20,7 @@ public class LeaderboardUIManager : MonoBehaviour
             return;
         }
         
-        // uncomment to add test entry, REMOVE IN PRODUCTION
+        // uncomment to add test entry, NOT NEEDED IN PRODUCTION
         // AddTestEntry();
 
         // load and display the results
@@ -37,7 +37,7 @@ public class LeaderboardUIManager : MonoBehaviour
     //         WaterBodies = 100,
     //         TerrainDiscovered = 80f,
     //         TimeElapsed = 300, // 5 minutes
-    //         UserID = 99 // Adjust as needed for your database schema
+    //         UserID = 99 // Adjust as needed for database schema
     //     };
         
     //     // Insert into database
@@ -67,6 +67,9 @@ public class LeaderboardUIManager : MonoBehaviour
     
     private void DisplayLeaderboardData()
     {
+
+        //  Debug.LogError("DisplayLeaderboardData STARTED");
+
         // Check for null references
         if (resultsContainer == null)
         {
@@ -96,6 +99,8 @@ public class LeaderboardUIManager : MonoBehaviour
         
         // take only the top N results
         int entriesToShow = Mathf.Min(maxLeaderboardEntries, results.Count);
+
+        // Debug.Log($"Creating {entriesToShow} leaderboard items out of {results.Count} total results");
         
         // create new result items
         for (int i = 0; i < entriesToShow; i++)

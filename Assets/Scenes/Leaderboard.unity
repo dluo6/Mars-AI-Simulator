@@ -1334,11 +1334,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1092613355}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2034134b5fa3942cd8d17c991be29bc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  resultsContainer: {fileID: 0}
+  resultItemPrefab: {fileID: 0}
+  maxLeaderboardEntries: 5
 --- !u!1001 &1161974192
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1780,6 +1783,7 @@ GameObject:
   - component: {fileID: 1642711611}
   - component: {fileID: 1642711610}
   - component: {fileID: 1642711609}
+  - component: {fileID: 1642711615}
   m_Layer: 5
   m_Name: Content
   m_TagString: Untagged
@@ -1825,15 +1829,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1642711607}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ba2c4b0a6d1775f4f935269dc6ef4b7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   contentTransform: {fileID: 1642711608}
   resultItemPrefab: {fileID: 4776944823801594524, guid: b0c179041e1a39d48a8410fdd6c06df9, type: 3}
-  apiUrl: https://get-api-url/results/list
-  useDummyData: 1
   poolSize: 12
 --- !u!222 &1642711611
 CanvasRenderer:
@@ -1900,6 +1902,21 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &1642711615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1642711607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2034134b5fa3942cd8d17c991be29bc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resultsContainer: {fileID: 1642711608}
+  resultItemPrefab: {fileID: 4776944823801594524, guid: b0c179041e1a39d48a8410fdd6c06df9, type: 3}
+  maxLeaderboardEntries: 5
 --- !u!1 &1863003145
 GameObject:
   m_ObjectHideFlags: 0
