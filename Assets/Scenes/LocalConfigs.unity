@@ -1789,7 +1789,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 549899748}
         m_TargetAssemblyTypeName: MapToTerrain, Assembly-CSharp
-        m_MethodName: AddRover
+        m_MethodName: AddPlayer
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
