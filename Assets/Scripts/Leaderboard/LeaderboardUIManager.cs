@@ -42,6 +42,19 @@ public class LeaderboardUIManager : MonoBehaviour
     
     private void DisplayLeaderboardData()
     {
+        // Check for null references
+        if (resultsContainer == null)
+        {
+            Debug.LogError("Results Container is not assigned in the Inspector");
+            return;
+        }
+        
+        if (resultItemPrefab == null)
+        {
+            Debug.LogError("Result Item Prefab is not assigned in the Inspector");
+            return;
+        }
+        
         // get results from DatabaseManager using the singleton Instance
         List<RoverResult> results = DatabaseManager.Instance.LoadResults();
         
