@@ -740,7 +740,7 @@ MonoBehaviour:
   cam: {fileID: 961739753}
   startButton: {fileID: 290819251}
   player: {fileID: 5296080929590394001, guid: a1d4c78835897691897d24974c2fac7b, type: 3}
-  targetPrefab: {fileID: 868943404359853463, guid: 83ffd369d6926041da8d8828d12c1bed, type: 3}
+  targetPrefab: {fileID: 8158857770606489436, guid: 18c2a2510a2b1804cb587411e86b6c37, type: 3}
   nameInput: {fileID: 1057193826}
 --- !u!114 &549899749
 MonoBehaviour:
