@@ -28,6 +28,7 @@ public class LeaderboardUIManager : MonoBehaviour
         DisplayLeaderboardData();
     }
 
+    // quits application on click
     public void OnExitClicked() 
     {
         #if UNITY_EDITOR
@@ -37,6 +38,7 @@ public class LeaderboardUIManager : MonoBehaviour
         #endif
     }
 
+    // goes back to progress report page upon clicking button
     public void OnProgressReportClicked() 
     {
         SceneManager.LoadScene("EndGameProgress");
