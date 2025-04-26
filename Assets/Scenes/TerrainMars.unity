@@ -148,7 +148,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4733872a9979af948a4a391928f574b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rover: {fileID: 638216745584464578}
   terrain: {fileID: 336805567}
   minimapSize: 150
   cameraHeight: 1000
@@ -3073,7 +3072,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeLimit: 1
-  numRovers: 1
+  numRovers: 2
   simulationTimeElapsed: 0
   rovers: []
   currentRoverIndex: 0
