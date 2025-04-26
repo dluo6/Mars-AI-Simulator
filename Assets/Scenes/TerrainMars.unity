@@ -3424,6 +3424,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2389247529410812958, guid: a1d4c78835897691897d24974c2fac7b, type: 3}
+      propertyPath: speedText
+      value: 
+      objectReference: {fileID: 209293590}
+    - target: {fileID: 2389247529410812958, guid: a1d4c78835897691897d24974c2fac7b, type: 3}
+      propertyPath: marsClimate
+      value: 
+      objectReference: {fileID: 1527724748}
+    - target: {fileID: 2389247529410812958, guid: a1d4c78835897691897d24974c2fac7b, type: 3}
+      propertyPath: marsTerrain
+      value: 
+      objectReference: {fileID: 336805569}
+    - target: {fileID: 2389247529410812958, guid: a1d4c78835897691897d24974c2fac7b, type: 3}
+      propertyPath: humidityText
+      value: 
+      objectReference: {fileID: 465144738}
+    - target: {fileID: 2389247529410812958, guid: a1d4c78835897691897d24974c2fac7b, type: 3}
+      propertyPath: temperatureText
+      value: 
+      objectReference: {fileID: 1335600929}
+    - target: {fileID: 2389247529410812958, guid: a1d4c78835897691897d24974c2fac7b, type: 3}
+      propertyPath: soilMoistureText
+      value: 
+      objectReference: {fileID: 613823009}
     - target: {fileID: 5296080929590394001, guid: a1d4c78835897691897d24974c2fac7b, type: 3}
       propertyPath: m_Name
       value: Player
