@@ -7,20 +7,16 @@ using TMPro;
 public class LeaderboardUIManager : MonoBehaviour 
 {
     // reference to UI elements
-    public Transform resultsContainer;
-    public GameObject resultItemPrefab;
-    
-    // reference to the DatabaseManager
-    private DatabaseManager _databaseManager;
+    [SerializeField] private Transform resultsContainer;
+    [SerializeField] private GameObject resultItemPrefab;
+    [SerializeField] private int maxLeaderboardEntries = 5; // show only top 5 results
     
     void Start()
     {
-        // find the DatabaseManager in the scene
-        _databaseManager = FindObjectOfType<DatabaseManager>();
-        
-        if (_databaseManager == null)
+        // check if DatabaseManager.Instance exists
+        if (DatabaseManager.Instance == null)
         {
-            Debug.LogError("DatabaseManager not found in the scene. Make sure it exists.");
+            Debug.LogError("DatabaseManager.Instance is null. Make sure DatabaseManager exists in the scene.");
             return;
         }
         
@@ -46,19 +42,13 @@ public class LeaderboardUIManager : MonoBehaviour
     
     private void DisplayLeaderboardData()
     {
-        // get results from DatabaseManager
-        List<RoverResult> results = _databaseManager.LoadResults();
+        // get results from DatabaseManager using the singleton Instance
+        List<RoverResult> results = DatabaseManager.Instance.LoadResults();
         
-        // sort results by water bodies (descending) and time elapsed (ascending)
-        results.Sort((a, b) => {
-            // first compare by water bodies (descending)
-            int waterComparison = b.WaterBodies.CompareTo(a.WaterBodies);
-            if (waterComparison != 0)
-                return waterComparison;
-                
-            // If water bodies are equal, compare by time elapsed (ascending)
-            return a.TimeElapsed.CompareTo(b.TimeElapsed);
-        });
+        // sort results by WaterBodies descending & TerrainDiscovered descending
+        results.Sort((a, b) => b.WaterBodies == a.WaterBodies ?
+            b.TerrainDiscovered.CompareTo(a.TerrainDiscovered) :
+            b.WaterBodies.CompareTo(a.WaterBodies));
         
         // clear existing result items
         foreach (Transform child in resultsContainer)
@@ -66,8 +56,11 @@ public class LeaderboardUIManager : MonoBehaviour
             Destroy(child.gameObject);
         }
         
+        // take only the top N results
+        int entriesToShow = Mathf.Min(maxLeaderboardEntries, results.Count);
+        
         // create new result items
-        for (int i = 0; i < results.Count; i++)
+        for (int i = 0; i < entriesToShow; i++)
         {
             var result = results[i];
             
@@ -77,23 +70,23 @@ public class LeaderboardUIManager : MonoBehaviour
             // set position in the list
             resultItemObj.transform.SetSiblingIndex(i);
             
-            // find the text components
-            var texts = resultItemObj.GetComponentsInChildren<TextMeshProUGUI>();
-            if (texts.Length >= 5) // Make sure we have enough text elements
+            // use the ResultItemUI component
+            ResultItemUI resultUI = resultItemObj.GetComponent<ResultItemUI>();
+            if (resultUI != null)
             {
-                // update the text values (adjust indices based on prefab layout)
-                texts[0].text = (i + 1).ToString();  // rank
-                texts[1].text = result.RoverName;
-                texts[2].text = result.WaterBodies.ToString();
-                texts[3].text = FormatTime(result.TimeElapsed);
-                texts[4].text = result.TerrainDiscovered.ToString("F2") + "%";
+                resultUI.SetData(
+                    rank: i + 1,
+                    roverName: result.RoverName,
+                    waterBodies: result.WaterBodies,
+                    terrainDiscovered: result.TerrainDiscovered
+                    // timeElapsed: result.TimeElapsed
+                );
+            }
+            else
+            {
+                Debug.LogError("ResultItemUI component not found on prefab. Please add it to your result item prefab.");
             }
         }
     }
-    
-    private string FormatTime(int seconds)
-    {
-        TimeSpan timeSpan = TimeSpan.FromSeconds(seconds);
-        return string.Format("{0:D2}:{1:D2}", timeSpan.Minutes, timeSpan.Seconds);
-    }
+
 }
