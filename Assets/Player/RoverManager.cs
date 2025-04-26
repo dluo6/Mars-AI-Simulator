@@ -19,7 +19,7 @@ public class RoverManager : MonoBehaviour
 
     private string playerName;
 
-    void Start()
+    void Awake()
     {
         InitializeRovers();
     }
