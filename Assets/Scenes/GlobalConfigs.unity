@@ -1254,7 +1254,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeLimit: {fileID: 1727961864}
-  numPlayers: {fileID: 0}
+  numPlayers: {fileID: 362794331}
 --- !u!1 &624239159
 GameObject:
   m_ObjectHideFlags: 0
