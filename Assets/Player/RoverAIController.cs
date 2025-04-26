@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class RoverAIController : MonoBehaviour
 {
-    private IRoverController ActiveRoverController;
+    private RoverManager roverManager;
+    private IRoverController ActiveRoverController =>
+    roverManager.ActiveRover?.GetComponent<IRoverController>();
     private Rigidbody rb;
     private float baseMotorForce;
 
@@ -27,8 +29,8 @@ public class RoverAIController : MonoBehaviour
 
     private void Start()
     {
-        GameObject ActiveRover = GetComponent<RoverManager>().ActiveRover;
-        ActiveRoverController = ActiveRover.GetComponent<IRoverController>();
+        roverManager = GetComponent<RoverManager>();
+        GameObject ActiveRover = roverManager.ActiveRover;
         checkWetArea = GetComponent<CheckWetArea>();
         ActiveRover.GetComponent<Rigidbody>().centerOfMass = new Vector3(0, -1.5f, 0);
         rb = ActiveRover.GetComponent<Rigidbody>();
