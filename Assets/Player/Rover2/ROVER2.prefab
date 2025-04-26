@@ -167,7 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d345d0d7f92b2688b419a2e645086ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  useAI: 1
+  useAI: 0
   motorForce: 3000
   brakeForce: 0
   maxSteerAngle: 30

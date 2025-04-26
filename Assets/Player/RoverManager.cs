@@ -41,11 +41,17 @@ public class RoverManager : MonoBehaviour
         {
             SwitchRover();
         }
-
-        if (activeRover != null && Vector3.Angle(activeRover.transform.up, Vector3.up) > flipThreshold)
+        if (activeRover != null)
         {
-            Respawn();
+            transform.position = activeRover.transform.position;
+
+            if (Vector3.Angle(activeRover.transform.up, Vector3.up) > flipThreshold)
+            {
+                Respawn();
+            }
         }
+
+
     }
 
     void SetActiveRover(int index)
