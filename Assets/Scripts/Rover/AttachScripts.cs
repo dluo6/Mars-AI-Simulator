@@ -8,6 +8,7 @@ public class AttachScripts : MonoBehaviour
     {
         foreach (GameObject player in GlobalVariables.Instance.players)
         {
+            player.AddComponent<StatsPanel>();
             GameObject activeRover = player.GetComponent<RoverManager>().ActiveRover;
             CheckWetArea wetAreaScript = activeRover.AddComponent<CheckWetArea>();
             wetAreaScript.setTerrain(marsTerrain);
