@@ -73,7 +73,7 @@ public class MapToTerrain : MonoBehaviour, IPointerClickHandler
         RoverManager roverManager = currentPlayer.GetComponent<RoverManager>();
         if (nameInput.text != "")
         {
-            roverManager.setPlayerName(nameInput.text);
+            roverManager.SetPlayerName(nameInput.text);
         }
         GlobalVariables.Instance.AddToList(currentPlayer);
         curNumPlayers += 1;

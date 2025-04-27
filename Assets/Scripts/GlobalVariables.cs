@@ -13,6 +13,8 @@ public class GlobalVariables : MonoBehaviour
     public int currentPlayerIndex = 0;
     public GameObject dummyPlayer;
 
+    public event System.Action<int> OnPlayerChanged;
+
     void Awake()
     {
         if (Instance == null)
@@ -41,6 +43,15 @@ public class GlobalVariables : MonoBehaviour
         {
             players.Remove(obj);
             Destroy(obj);
+        }
+    }
+
+    public void SwitchToPlayer(int index)
+    {
+        if (index >= 0 && index < players.Count)
+        {
+            currentPlayerIndex = index;
+            OnPlayerChanged?.Invoke(index);
         }
     }
 }
