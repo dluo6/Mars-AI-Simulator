@@ -10,6 +10,7 @@ public class LeaderboardUIManager : MonoBehaviour
     [SerializeField] private Transform resultsContainer;
     [SerializeField] private GameObject resultItemPrefab;
     [SerializeField] private int maxLeaderboardEntries = 5; // show only top 5 results
+    [SerializeField] private TMP_Text leaderboardText;
     
     void Start()
     {
@@ -22,6 +23,8 @@ public class LeaderboardUIManager : MonoBehaviour
         
         // uncomment to add test entry, NOT NEEDED IN PRODUCTION
         // AddTestEntry();
+
+        SetCurrentRoverVisible();
 
         // load and display the results
         DisplayLeaderboardData();
@@ -132,4 +135,17 @@ public class LeaderboardUIManager : MonoBehaviour
         }
     }
 
+    public void SetCurrentRoverVisible()
+    {
+        List<RoverResult> currentResults = ProgressReportManager.Instance.GetCurrentResults();
+
+        if (currentResults == null || currentResults.Count == 0)
+        {
+            leaderboardText.gameObject.SetActive(true);
+        }
+        // else
+        // {
+ 
+        // }
+    }
 }
