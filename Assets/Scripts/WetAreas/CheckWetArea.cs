@@ -41,7 +41,7 @@ public class CheckWetArea : MonoBehaviour
 
     bool CheckIfOnWetArea()
     {
-        Vector3 charPos = transform.position; // The rover's position
+        Vector3 charPos = GetComponent<RoverManager>().ActiveRover.transform.position; // The rover's position
         float relativeX = (charPos.x - terrainPos.x);
         float relativeZ = (charPos.z - terrainPos.z);
 
@@ -87,7 +87,8 @@ public class CheckWetArea : MonoBehaviour
         }
     }
 
-    public void setTerrain(Terrain inputTerrain) {
+    public void setTerrain(Terrain inputTerrain)
+    {
         terrain = inputTerrain;
     }
 }

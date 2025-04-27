@@ -16,10 +16,10 @@ public class StatsPanel : MonoBehaviour
         marsTerrain = FindFirstObjectByType<Terrain>();
         marsClimate = FindFirstObjectByType<MarsClimate>();
 
-        speedText = transform.Find("Canvas/StatsPanel/StatsText/SpeedText")?.GetComponent<TextMeshProUGUI>();
-        temperatureText = transform.Find("Canvas/StatsPanel/StatsText/TemperatureText")?.GetComponent<TextMeshProUGUI>();
-        humidityText = transform.Find("Canvas/StatsPanel/StatsText/HumidityText")?.GetComponent<TextMeshProUGUI>();
-        soilMoistureText = transform.Find("Canvas/StatsPanel/StatsText/SoilMoistureText")?.GetComponent<TextMeshProUGUI>();
+        speedText = transform.Find("../Canvas/StatsPanel/StatsText/SpeedText")?.GetComponent<TextMeshProUGUI>();
+        temperatureText = transform.Find("../Canvas/StatsPanel/StatsText/TemperatureText")?.GetComponent<TextMeshProUGUI>();
+        humidityText = transform.Find("../Canvas/StatsPanel/StatsText/HumidityText")?.GetComponent<TextMeshProUGUI>();
+        soilMoistureText = transform.Find("../Canvas/StatsPanel/StatsText/SoilMoistureText")?.GetComponent<TextMeshProUGUI>();
 
         if (marsTerrain == null || marsClimate == null ||
             speedText == null || temperatureText == null || humidityText || soilMoistureText)
