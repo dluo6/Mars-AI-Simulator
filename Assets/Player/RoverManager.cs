@@ -26,11 +26,15 @@ public class RoverManager : MonoBehaviour
 
     void InitializeRovers()
     {
+        Debug.Log("Initializing Rovers");
         rovers = new GameObject[2];
 
         // Spawn rovers as independent objects (no parent)
         rovers[0] = Instantiate(rover1Prefab, transform.position + Vector3.left * roverSpacing, Quaternion.identity);
         rovers[1] = Instantiate(rover2Prefab, transform.position + Vector3.right * roverSpacing, Quaternion.identity);
+
+        DontDestroyOnLoad(rovers[0]);
+        DontDestroyOnLoad(rovers[1]);
 
         SetActiveRover(0);
     }
