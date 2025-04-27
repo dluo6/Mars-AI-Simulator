@@ -124,7 +124,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6117961864937694175, guid: a1d4c78835897691897d24974c2fac7b, type: 3}
   m_PrefabInstance: {fileID: 1955821102}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1955821103}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d675ddb6da19211f1ab4103b2d7c3f89, type: 3}
@@ -3493,10 +3493,38 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 4416622223629779822, guid: a1d4c78835897691897d24974c2fac7b, type: 3}
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5296080929590394001, guid: a1d4c78835897691897d24974c2fac7b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1955821104}
   m_SourcePrefab: {fileID: 100100000, guid: a1d4c78835897691897d24974c2fac7b, type: 3}
+--- !u!1 &1955821103 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5296080929590394001, guid: a1d4c78835897691897d24974c2fac7b, type: 3}
+  m_PrefabInstance: {fileID: 1955821102}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1955821104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1955821103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53a945c8d1ab9784889459b5fb8be876, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  marsTerrain: {fileID: 336805569}
+  marsClimate: {fileID: 1527724748}
+  speedText: {fileID: 209293590}
+  temperatureText: {fileID: 1335600929}
+  humidityText: {fileID: 465144738}
+  soilMoistureText: {fileID: 613823009}
+  currentRoverPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &2039869612
 GameObject:
   m_ObjectHideFlags: 0
