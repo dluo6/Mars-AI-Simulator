@@ -41,10 +41,11 @@ public class RoverManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Tab))
+        if (IsCurrentPlayer() && Input.GetKeyDown(KeyCode.Tab))
         {
             SwitchRover();
         }
+
         if (activeRover != null)
         {
             transform.position = activeRover.transform.position;
@@ -56,6 +57,15 @@ public class RoverManager : MonoBehaviour
         }
 
 
+    }
+
+    private bool IsCurrentPlayer()
+    {
+        if (GlobalVariables.Instance == null || GlobalVariables.Instance.players.Count == 0)
+            return false;
+
+        GameObject currentPlayer = GlobalVariables.Instance.players[GlobalVariables.Instance.currentPlayerIndex];
+        return currentPlayer == this.gameObject;
     }
 
     void SetActiveRover(int index)

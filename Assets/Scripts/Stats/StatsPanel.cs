@@ -17,8 +17,8 @@ public class StatsPanel : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // GlobalVariables.Instance.players[GlobalVariables.Instance.currentPlayerIndex].GetComponent<RoverManager>().ActiveRover;
-        GameObject currentRover = GetComponent<RoverManager>().ActiveRover;
+        GameObject currentRover = GlobalVariables.Instance.players[GlobalVariables.Instance.currentPlayerIndex].GetComponent<RoverManager>().ActiveRover;
+        // GameObject currentRover = GetComponent<RoverManager>().ActiveRover;
         IRoverController currentRoverController = currentRover.GetComponent<IRoverController>();
         currentRoverPosition = currentRover.transform.position;
         speedText.text = "SPEED: " + ((int)currentRoverController.GetCurrentSpeed()).ToString() + " m/s";
