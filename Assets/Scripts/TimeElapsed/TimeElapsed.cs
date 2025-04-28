@@ -6,7 +6,7 @@ public class TimeElapsed : MonoBehaviour
 {
 
     public TextMeshProUGUI timeElapsedText;
-    private float timeScale = 2.4f / 60f; // 1 real minute = 2.4 game hours
+    private float timeScale = 10.4f / 60f; // 1 real minute = 2.4 game hours
 
 
     // Update is called once per frame
@@ -19,7 +19,7 @@ public class TimeElapsed : MonoBehaviour
         if (GlobalVariables.Instance.simulationTimeElapsed >= GlobalVariables.Instance.timeLimit)
         {
             // Perform any necessary actions when 1 day of simulation is completed
-            Debug.Log("Simulation completed!");
+            // Debug.Log("Simulation completed!");
             SceneManager.LoadScene("EndGameProgress");
         }
     }

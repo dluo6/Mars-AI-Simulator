@@ -38,9 +38,9 @@ public class MetaDataHoverDebug : MonoBehaviour
                     float temperature = marsClimate.GetTemperatureAtPosition(hit.point);
                     float humidity = marsClimate.GetHumidityAtPosition(hit.point);
                     float soilMoisture = marsClimate.GetSoilMoistureAtPosition(hit.point);
-                    Debug.Log("Temperature at this position: " + temperature);
-                    Debug.Log("Humidity at this position: " + humidity);
-                    Debug.Log("Soil Moisture at this position: " + soilMoisture);
+                    // Debug.Log("Temperature at this position: " + temperature);
+                    // Debug.Log("Humidity at this position: " + humidity);
+                    // Debug.Log("Soil Moisture at this position: " + soilMoisture);
                 }
             }
         }

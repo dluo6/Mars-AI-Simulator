@@ -54,7 +54,7 @@ public class MarsClimate : MonoBehaviour
             }
             if (x % rowsPerFrame == 0) yield return null;
         }
-        Debug.Log("Done applying climate!!");
+        // Debug.Log("Done applying climate!!");
     }
 
 
@@ -105,7 +105,7 @@ public class MarsClimate : MonoBehaviour
 
         foreach (Vector3 coord in absCoordinates)
         {
-            Debug.Log("Augmenting climate conditions as per secret water bodies....");
+            // Debug.Log("Augmenting climate conditions as per secret water bodies....");
 
             int[] relativeCoord = GetRelativeTerrainPosition(coord);
             int centerX = relativeCoord[0];
@@ -113,7 +113,7 @@ public class MarsClimate : MonoBehaviour
 
             if (centerX < 0 || centerX >= heightMapResolution || centerY < 0 || centerY >= heightMapResolution)
             {
-                Debug.LogWarning($"Coordinate ({centerX}, {centerY}) is outside terrain bounds, skipping.");
+                // Debug.LogWarning($"Coordinate ({centerX}, {centerY}) is outside terrain bounds, skipping.");
                 continue;
             }
 
@@ -145,7 +145,7 @@ public class MarsClimate : MonoBehaviour
             }
         }
 
-        Debug.Log("Augmented climate conditions successfully");
+        // Debug.Log("Augmented climate conditions successfully");
     }
 
 
@@ -171,7 +171,7 @@ public class MarsClimate : MonoBehaviour
         File.WriteAllText("./temperature_map.csv", sbTemp.ToString());
         File.WriteAllText("./humidity_map.csv", sbHumidity.ToString());
 
-        Debug.Log("climate data loaded into csv files!!");
+        // Debug.Log("climate data loaded into csv files!!");
     }   
 
 }

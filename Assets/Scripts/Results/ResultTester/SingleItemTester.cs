@@ -36,7 +36,7 @@ public class TestResultItem : MonoBehaviour
         if (resultItem != null)
         {
             resultItem.SetData(rank, roverName, waterBodies, terrainDiscovered);
-            Debug.Log($"Testing SetData with: Rank {rank}, Name {roverName}, Water {waterBodies}, Terrain {terrainDiscovered}%");
+            // Debug.Log($"Testing SetData with: Rank {rank}, Name {roverName}, Water {waterBodies}, Terrain {terrainDiscovered}%");
         }
         else
         {

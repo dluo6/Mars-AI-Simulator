@@ -21,7 +21,7 @@ public class DatabaseManager : MonoBehaviour
             // Construct the database path. Make sure the database file (mars_ai_simulator.db)
             // is in your Assets/StreamingAssets folder.
             dbPath = Path.Combine(Application.streamingAssetsPath, "mars_ai_simulator.db");
-            Debug.Log("Database path: " + dbPath);
+            // Debug.Log("Database path: " + dbPath);
 
             // Open the connection with read/write and create flags.
             _connection = new SQLiteConnection(dbPath, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);

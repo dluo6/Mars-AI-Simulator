@@ -69,11 +69,11 @@ public class RoverAIController : MonoBehaviour
                 if (currentWaterTarget != Vector3.zero)
                 {
                     hasTarget = true;
-                    Debug.Log("New water target: " + currentWaterTarget);
+                    // Debug.Log("New water target: " + currentWaterTarget);
                 }
                 else
                 {
-                    Debug.Log("All water sources have been visited or none available.");
+                    // Debug.Log("All water sources have been visited or none available.");
                     yield break;
                 }
             }
@@ -86,7 +86,7 @@ public class RoverAIController : MonoBehaviour
             if (distanceToTarget < targetReachedThreshold &&
                 checkWetArea != null && checkWetArea.IsOnWetArea)
             {
-                Debug.Log("Reached target water source: " + currentWaterTarget);
+                // Debug.Log("Reached target water source: " + currentWaterTarget);
                 visitedWaterSources.Add(currentWaterTarget);
                 hasTarget = false;
                 // Optionally wait before searching for the next target.

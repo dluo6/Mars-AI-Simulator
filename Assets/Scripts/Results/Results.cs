@@ -16,7 +16,10 @@ public class Results : MonoBehaviour
 
     public void ExitGame()
     {
-        Debug.LogWarning("Exit button pressed!");
+        #if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+        #else
         Application.Quit();
+        #endif
     }
 }

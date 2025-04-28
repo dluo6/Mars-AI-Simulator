@@ -45,7 +45,7 @@ public class RoverManager : MonoBehaviour
 
     void InitializeRovers()
     {
-        Debug.Log("Initializing Rovers");
+        // Debug.Log("Initializing Rovers");
         rovers = new GameObject[2];
 
         // Spawn rovers as child objects

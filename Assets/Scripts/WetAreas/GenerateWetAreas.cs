@@ -40,7 +40,7 @@ public class GenerateWetAreas : MonoBehaviour
 
         if (targetTerrain == null)
         {
-            Debug.LogWarning("No terrain assigned to GenerateWetAreas!");
+            // Debug.LogWarning("No terrain assigned to GenerateWetAreas!");
             return;
         }
 
