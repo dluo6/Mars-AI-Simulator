@@ -6,12 +6,14 @@ public class GlobalVariables : MonoBehaviour
     public static GlobalVariables Instance;
 
     public int timeLimit = 1;
-    public int numRovers = 1;
+    public int numPlayers = 1;
     public float simulationTimeElapsed = 0;
-    
-    public List<GameObject> rovers = new List<GameObject>();
-    public int currentRoverIndex = 0;
-    public GameObject dummyRover;
+
+    public List<GameObject> players = new List<GameObject>();
+    public int currentPlayerIndex = 0;
+    public GameObject dummyPlayer;
+
+    public event System.Action<int> OnPlayerChanged;
 
     void Awake()
     {
@@ -19,8 +21,8 @@ public class GlobalVariables : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-            GameObject instantiatedDummyRover = Instantiate(dummyRover, new Vector3(23499, 250, 14407), new Quaternion(0,0,0,0));
-            Instance.AddToList(instantiatedDummyRover);
+            GameObject instantiatedDummyPlayer = Instantiate(dummyPlayer, new Vector3(23499, 250, 14407), new Quaternion(0, 0, 0, 0));
+            Instance.AddToList(instantiatedDummyPlayer);
         }
         else
         {
@@ -31,16 +33,25 @@ public class GlobalVariables : MonoBehaviour
 
     public void AddToList(GameObject obj)
     {
-        rovers.Add(obj);
+        players.Add(obj);
         DontDestroyOnLoad(obj);
     }
 
     public void RemoveFromList(GameObject obj)
     {
-        if (rovers.Contains(obj))
+        if (players.Contains(obj))
         {
-            rovers.Remove(obj);
+            players.Remove(obj);
             Destroy(obj);
+        }
+    }
+
+    public void SwitchToPlayer(int index)
+    {
+        if (index >= 0 && index < players.Count)
+        {
+            currentPlayerIndex = index;
+            OnPlayerChanged?.Invoke(index);
         }
     }
 }

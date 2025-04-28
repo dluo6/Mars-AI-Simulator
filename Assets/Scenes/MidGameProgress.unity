@@ -393,7 +393,7 @@ Camera:
     height: 1
   near clip plane: 0.1
   far clip plane: 5000
-  field of view: 60.000004
+  field of view: 60
   orthographic: 0
   orthographic size: 10
   m_Depth: -1
@@ -419,8 +419,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 366451262}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0.06886153, y: -0.7394364, z: 0.07653407, w: 0.6653078}
+  m_LocalPosition: {x: 23564.85, y: 246.60002, z: 18380.23}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -858,11 +858,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeLimit: 1
-  numRovers: 1
+  numPlayers: 1
   simulationTimeElapsed: 0
-  rovers: []
-  currentRoverIndex: 0
-  dummyRover: {fileID: 4447756694073025737, guid: d8bbee49d4362087292feade510ea608, type: 3}
+  players: []
+  currentPlayerIndex: 0
+  dummyPlayer: {fileID: 5296080929590394001, guid: a1d4c78835897691897d24974c2fac7b, type: 3}
 --- !u!4 &625040333
 Transform:
   m_ObjectHideFlags: 0
@@ -1419,7 +1419,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 926584837}
   m_HandleRect: {fileID: 926584836}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:

@@ -14,7 +14,7 @@ public class TimeElapsed : MonoBehaviour
     {
         // Simulate the game time: For every real second, 2.4/60 hours pass in the game
         GlobalVariables.Instance.simulationTimeElapsed += Time.deltaTime * timeScale;
-        Debug.Log("Simulated Game Time: " + GlobalVariables.Instance.simulationTimeElapsed * 24f + " hours");
+        // Debug.Log("Simulated Game Time: " + GlobalVariables.Instance.simulationTimeElapsed * 24f + " hours");
         timeElapsedText.text = "Time Elapsed\n" + ((int) GlobalVariables.Instance.simulationTimeElapsed).ToString() + " Days";
         if (GlobalVariables.Instance.simulationTimeElapsed >= GlobalVariables.Instance.timeLimit)
         {

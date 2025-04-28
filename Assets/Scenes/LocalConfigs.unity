@@ -739,7 +739,7 @@ MonoBehaviour:
   terrain: {fileID: 2111843046}
   cam: {fileID: 961739753}
   startButton: {fileID: 290819251}
-  rover: {fileID: 4447756694073025737, guid: d8bbee49d4362087292feade510ea608, type: 3}
+  player: {fileID: 5296080929590394001, guid: a1d4c78835897691897d24974c2fac7b, type: 3}
   targetPrefab: {fileID: 8158857770606489436, guid: 18c2a2510a2b1804cb587411e86b6c37, type: 3}
   nameInput: {fileID: 1057193826}
 --- !u!114 &549899749
@@ -1789,7 +1789,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 549899748}
         m_TargetAssemblyTypeName: MapToTerrain, Assembly-CSharp
-        m_MethodName: AddRover
+        m_MethodName: AddPlayer
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2084,11 +2084,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeLimit: 1
-  numRovers: 1
+  numPlayers: 1
   simulationTimeElapsed: 0
-  rovers: []
-  currentRoverIndex: 0
-  dummyRover: {fileID: 4447756694073025737, guid: d8bbee49d4362087292feade510ea608, type: 3}
+  players: []
+  currentPlayerIndex: 0
+  dummyPlayer: {fileID: 5296080929590394001, guid: a1d4c78835897691897d24974c2fac7b, type: 3}
 --- !u!4 &1692601379
 Transform:
   m_ObjectHideFlags: 0

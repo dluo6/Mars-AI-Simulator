@@ -1248,13 +1248,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 595815448}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5c0966a688224c3459eec585285a506e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   timeLimit: {fileID: 1727961864}
-  numRovers: {fileID: 362794331}
+  numPlayers: {fileID: 362794331}
 --- !u!1 &624239159
 GameObject:
   m_ObjectHideFlags: 0
@@ -3473,11 +3473,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeLimit: 1
-  numRovers: 1
+  numPlayers: 1
   simulationTimeElapsed: 0
-  rovers: []
-  currentRoverIndex: 0
-  dummyRover: {fileID: 4447756694073025737, guid: d8bbee49d4362087292feade510ea608, type: 3}
+  players: []
+  currentPlayerIndex: 0
+  dummyPlayer: {fileID: 5296080929590394001, guid: a1d4c78835897691897d24974c2fac7b, type: 3}
 --- !u!4 &1917560350
 Transform:
   m_ObjectHideFlags: 0

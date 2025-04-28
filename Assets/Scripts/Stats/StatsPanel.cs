@@ -11,18 +11,19 @@ public class StatsPanel : MonoBehaviour
     public TextMeshProUGUI temperatureText;
     public TextMeshProUGUI humidityText;
     public TextMeshProUGUI soilMoistureText;
-    public Vector3 roverPosition;
+    public Vector3 currentRoverPosition;
 
 
     // Update is called once per frame
     void Update()
     {
-        GameObject rover = GlobalVariables.Instance.rovers[GlobalVariables.Instance.currentRoverIndex];
-        RoverController roverController = rover.GetComponent<RoverController>();
-        roverPosition = rover.transform.position;
-        speedText.text = "SPEED: " + ((int) roverController.GetCurrentSpeed()).ToString() + " m/s";
-        temperatureText.text = "Temperature: " + marsClimate.GetTemperatureAtPosition(roverPosition).ToString("F2") + " C";
-        humidityText.text = "Humidity: " + (marsClimate.GetHumidityAtPosition(roverPosition) * 100f).ToString("F2") + "%";
-        soilMoistureText.text = "Soil Moisture: " + (marsClimate.GetSoilMoistureAtPosition(roverPosition) * 100f).ToString("F2") + "%";
+        GameObject currentRover = GlobalVariables.Instance.players[GlobalVariables.Instance.currentPlayerIndex].GetComponent<RoverManager>().ActiveRover;
+        // GameObject currentRover = GetComponent<RoverManager>().ActiveRover;
+        IRoverController currentRoverController = currentRover.GetComponent<IRoverController>();
+        currentRoverPosition = currentRover.transform.position;
+        speedText.text = "SPEED: " + ((int)currentRoverController.GetCurrentSpeed()).ToString() + " m/s";
+        temperatureText.text = "Temperature: " + marsClimate.GetTemperatureAtPosition(currentRoverPosition).ToString("F2") + " C";
+        humidityText.text = "Humidity: " + (marsClimate.GetHumidityAtPosition(currentRoverPosition) * 100f).ToString("F2") + "%";
+        soilMoistureText.text = "Soil Moisture: " + (marsClimate.GetSoilMoistureAtPosition(currentRoverPosition) * 100f).ToString("F2") + "%";
     }
 }
