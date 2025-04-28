@@ -40,11 +40,11 @@ public class Rover2Controller : MonoBehaviour, IRoverController
     private void Update()
     {
         // Press "M" to toggle AI & Manual Control
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            useAI = !useAI;
-            Debug.Log(useAI ? "AI Control Enabled" : "Manual Control Enabled");
-        }
+        // if (Input.GetKeyDown(KeyCode.M))
+        // {
+        //     useAI = !useAI;
+        //     Debug.Log(useAI ? "AI Control Enabled" : "Manual Control Enabled");
+        // }
     }
 
     private void FixedUpdate()
