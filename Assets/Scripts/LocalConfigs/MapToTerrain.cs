@@ -78,6 +78,8 @@ public class MapToTerrain : MonoBehaviour, IPointerClickHandler
         GlobalVariables.Instance.AddToList(currentPlayer);
         curNumPlayers += 1;
 
+        nameInput.text = "";
+
         // Add the target prefab to the canvas before showing
         GameObject target = Instantiate(targetPrefab, map);
         target.GetComponent<RectTransform>().anchoredPosition = currentLocalPosition;
@@ -93,6 +95,7 @@ public class MapToTerrain : MonoBehaviour, IPointerClickHandler
 
     public void CancelAdding()
     {
+        nameInput.text = "";
         Hide(confirmScreenCanvas);
         Show(mapCanvas);
         Destroy(currentPlayer);
