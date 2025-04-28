@@ -16,7 +16,7 @@ public class RoverManager : MonoBehaviour
 
     private float flipThreshold = 80f;
     private float respawnHeight = 3f;
-    private string playerName;
+    private string playerName = "Rover";
 
     void Awake()
     {
@@ -101,10 +101,7 @@ public class RoverManager : MonoBehaviour
         {
             // Update position/rotation
             activeRover.transform.position = currentPosition;
-            activeRover.transform.rotation = index == 1 ?
-                currentRotation * Quaternion.Euler(0, 180, 0) :
-                currentRotation;
-
+            activeRover.transform.rotation = currentRotation * Quaternion.Euler(0, 180, 0);
             activeRover.SetActive(true);
 
             // Reset physics

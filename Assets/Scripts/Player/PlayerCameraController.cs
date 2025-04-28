@@ -55,12 +55,6 @@ public class PlayerCameraController : MonoBehaviour
             CinCamera.Lens.FieldOfView = cameraFOV;
             CinCamera.Follow = targetRover.transform;
             CinCamera.LookAt = targetRover.transform;
-
-            // Update follow offset based on new rover's orientation
-            if (CinFollow != null)
-            {
-                CinFollow.FollowOffset = targetRover.transform.TransformDirection(followOffset);
-            }
         }
     }
 

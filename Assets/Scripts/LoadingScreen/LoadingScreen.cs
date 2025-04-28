@@ -17,6 +17,8 @@ public class LoadingScreen : MonoBehaviour
         loadingBox.SetActive(true);
         FreezeScene(true);
 
+        GlobalVariables.Instance.SwitchToPlayer(0);
+
         StartCoroutine(RunLoadingProcess());
     }
 
