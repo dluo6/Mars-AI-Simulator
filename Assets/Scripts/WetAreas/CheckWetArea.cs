@@ -58,7 +58,7 @@ public class CheckWetArea : MonoBehaviour
 
         if (wetWeight > wetThreshold)
         {
-            Debug.Log("Rover is on wet terrain!");
+            // Debug.Log("Rover is on wet terrain!");
             return true;
         }
         else

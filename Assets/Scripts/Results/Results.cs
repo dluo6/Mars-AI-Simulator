@@ -16,7 +16,7 @@ public class Results : MonoBehaviour
 
     public void ExitGame()
     {
-        Debug.LogWarning("Exit button pressed!");
+        // Debug.LogWarning("Exit button pressed!");
         Application.Quit();
     }
 }

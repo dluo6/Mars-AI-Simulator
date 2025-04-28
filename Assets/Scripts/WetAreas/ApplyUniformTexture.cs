@@ -28,10 +28,10 @@ public class ApplyUniformTexture : MonoBehaviour
         // Safety check
         if (textureIndex < 0 || textureIndex >= layers.Length)
         {
-            Debug.LogError(
-                $"textureIndex {textureIndex} is out of range. " +
-                $"The terrain only has {layers.Length} layers."
-            );
+            // Debug.LogError(
+            //     $"textureIndex {textureIndex} is out of range. " +
+            //     $"The terrain only has {layers.Length} layers."
+            // );
             return;
         }
 
@@ -56,7 +56,7 @@ public class ApplyUniformTexture : MonoBehaviour
 
         // Print the name of the layer we used
         string layerName = layers[textureIndex].name;
-        Debug.Log($"Painted entire terrain with layer '{layerName}'.");
+        // Debug.Log($"Painted entire terrain with layer '{layerName}'.");
     }
 
     // Called right when the game starts

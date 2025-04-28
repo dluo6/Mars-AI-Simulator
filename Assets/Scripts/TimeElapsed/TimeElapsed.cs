@@ -19,7 +19,7 @@ public class TimeElapsed : MonoBehaviour
         if (GlobalVariables.Instance.simulationTimeElapsed >= GlobalVariables.Instance.timeLimit)
         {
             // Perform any necessary actions when 1 day of simulation is completed
-            Debug.Log("Simulation completed!");
+            // Debug.Log("Simulation completed!");
             SceneManager.LoadScene("EndGameProgress");
         }
     }
